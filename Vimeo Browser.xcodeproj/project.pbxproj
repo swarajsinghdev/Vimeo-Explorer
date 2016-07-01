@@ -14,6 +14,12 @@
 		F352D84D1D258FFC00956279 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F352D84C1D258FFC00956279 /* Assets.xcassets */; };
 		F352D8501D258FFC00956279 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F352D84E1D258FFC00956279 /* LaunchScreen.storyboard */; };
 		F352D85B1D258FFC00956279 /* Vimeo_BrowserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D85A1D258FFC00956279 /* Vimeo_BrowserTests.swift */; };
+		F352D86A1D25923500956279 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D8691D25923500956279 /* CoreDataStackManager.swift */; };
+		F352D86C1D25935A00956279 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D86B1D25935A00956279 /* ImageCache.swift */; };
+		F352D86E1D25939E00956279 /* BaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D86D1D25939E00956279 /* BaseClient.swift */; };
+		F352D8701D25951500956279 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D86F1D25951500956279 /* Constants.swift */; };
+		F352D8721D25A03600956279 /* VimeoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D8711D25A03600956279 /* VimeoClient.swift */; };
+		F35B161B1D26DAFD006A745C /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B161A1D26DAFD006A745C /* Category.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +44,12 @@
 		F352D8561D258FFC00956279 /* Vimeo BrowserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Vimeo BrowserTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F352D85A1D258FFC00956279 /* Vimeo_BrowserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vimeo_BrowserTests.swift; sourceTree = "<group>"; };
 		F352D85C1D258FFC00956279 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F352D8691D25923500956279 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		F352D86B1D25935A00956279 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		F352D86D1D25939E00956279 /* BaseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseClient.swift; sourceTree = "<group>"; };
+		F352D86F1D25951500956279 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		F352D8711D25A03600956279 /* VimeoClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VimeoClient.swift; sourceTree = "<group>"; };
+		F35B161A1D26DAFD006A745C /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,13 +91,11 @@
 		F352D8411D258FFC00956279 /* Vimeo Browser */ = {
 			isa = PBXGroup;
 			children = (
-				F352D8421D258FFC00956279 /* AppDelegate.swift */,
+				F352D8681D2590C100956279 /* Client */,
+				F352D8671D25903B00956279 /* Supporting Files */,
+				F352D8661D25902900956279 /* Storyboard */,
+				F352D8651D25901D00956279 /* Model */,
 				F352D8441D258FFC00956279 /* ViewController.swift */,
-				F352D8461D258FFC00956279 /* Main.storyboard */,
-				F352D84C1D258FFC00956279 /* Assets.xcassets */,
-				F352D84E1D258FFC00956279 /* LaunchScreen.storyboard */,
-				F352D8511D258FFC00956279 /* Info.plist */,
-				F352D8491D258FFC00956279 /* Vimeo_Browser.xcdatamodeld */,
 			);
 			path = "Vimeo Browser";
 			sourceTree = "<group>";
@@ -97,6 +107,46 @@
 				F352D85C1D258FFC00956279 /* Info.plist */,
 			);
 			path = "Vimeo BrowserTests";
+			sourceTree = "<group>";
+		};
+		F352D8651D25901D00956279 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F352D8491D258FFC00956279 /* Vimeo_Browser.xcdatamodeld */,
+				F352D8691D25923500956279 /* CoreDataStackManager.swift */,
+				F352D86B1D25935A00956279 /* ImageCache.swift */,
+				F35B161A1D26DAFD006A745C /* Category.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		F352D8661D25902900956279 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				F352D8461D258FFC00956279 /* Main.storyboard */,
+				F352D84E1D258FFC00956279 /* LaunchScreen.storyboard */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		F352D8671D25903B00956279 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F352D8421D258FFC00956279 /* AppDelegate.swift */,
+				F352D84C1D258FFC00956279 /* Assets.xcassets */,
+				F352D8511D258FFC00956279 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F352D8681D2590C100956279 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				F352D86F1D25951500956279 /* Constants.swift */,
+				F352D86D1D25939E00956279 /* BaseClient.swift */,
+				F352D8711D25A03600956279 /* VimeoClient.swift */,
+			);
+			name = Client;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,7 +250,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F352D86C1D25935A00956279 /* ImageCache.swift in Sources */,
+				F352D86E1D25939E00956279 /* BaseClient.swift in Sources */,
 				F352D8451D258FFC00956279 /* ViewController.swift in Sources */,
+				F352D8721D25A03600956279 /* VimeoClient.swift in Sources */,
+				F352D86A1D25923500956279 /* CoreDataStackManager.swift in Sources */,
+				F35B161B1D26DAFD006A745C /* Category.swift in Sources */,
+				F352D8701D25951500956279 /* Constants.swift in Sources */,
 				F352D84B1D258FFC00956279 /* Vimeo_Browser.xcdatamodeld in Sources */,
 				F352D8431D258FFC00956279 /* AppDelegate.swift in Sources */,
 			);
@@ -392,6 +448,7 @@
 				F352D8611D258FFC00956279 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F352D8621D258FFC00956279 /* Build configuration list for PBXNativeTarget "Vimeo BrowserTests" */ = {
 			isa = XCConfigurationList;
@@ -400,6 +457,7 @@
 				F352D8641D258FFC00956279 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
