@@ -15,7 +15,7 @@ class Category: NSManagedObject {
     @NSManaged var name:String
     @NSManaged var uri:String
     @NSManaged var link:String
-    @NSManaged var topLevel:Bool
+    @NSManaged var topLevel:NSNumber
     @NSManaged var imageUrl:String
     @NSManaged var imageWithPlayIconUrl:String
     
@@ -29,22 +29,24 @@ class Category: NSManagedObject {
         let entity = NSEntityDescription.entityForName("Category", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
-        id = dictionary["reference_keys"] as! String
-        name = dictionary["name"] as! String
-        uri = dictionary["uri"] as! String
-        link = dictionary["link"] as! String
-        topLevel = dictionary["top_level"] as! Bool
+        let keys = VimeoClient.Keys.Category.self
+        
+        id = dictionary[keys.ResourceKey] as! String
+        name = dictionary[keys.Name] as! String
+        uri = dictionary[keys.Uri] as! String
+        link = dictionary[keys.Link] as! String
+        topLevel = dictionary[keys.TopLevel] as! NSNumber
         
         // we dont need all the sizes here, we'll pick a default of 960x540
-        if let pictures = dictionary["pictures"] as? [[String:AnyObject]] {
+        if let pictures = dictionary[keys.Pictures] as? [[String:AnyObject]] {
             
             for picture in pictures {
                 
-                let width = picture["width"] as! Int
+                let width = picture[keys.PicturesWidth] as! Int
                 
-                if width == 960 {
-                    imageUrl = picture["link"] as! String
-                    imageWithPlayIconUrl = picture["link_with_play_button"] as! String
+                if width == VimeoClient.Constants.CategoryImageWidth {
+                    imageUrl = picture[keys.PicturesLink] as! String
+                    imageWithPlayIconUrl = picture[keys.PicturesLinkWithPlayIcon] as! String
                 }
             }
         }
