@@ -31,17 +31,27 @@ extension BaseClient {
         static let VimeoGrantType = "grant_type"
         static let VimeoAccessToken = "access_token"
         
+        static let ResourceKey = "resource_key"
+        static let Name = "name"
+        static let Uri = "uri"
+        static let Link = "link"
+        static let Pictures = "pictures"
+        static let PicturesWidth = "width"
+        static let PicturesHeight = "height"
+        static let PicturesLink = "link"
+        static let PicturesLinkWithPlayIcon = "link_with_play_button"
+        
+        static let SortTypeDate = "date"
+        
         struct Category {
-            static let ResourceKey = "resource_key"
-            static let Name = "name"
-            static let Uri = "uri"
-            static let Link = "link"
             static let TopLevel = "top_level"
-            static let Pictures = "pictures"
-            static let PicturesWidth = "width"
-            static let PicturesHeight = "height"
-            static let PicturesLink = "link"
-            static let PicturesLinkWithPlayIcon = "link_with_play_button"
+        }
+        
+        struct Video {
+            static let Description = "description"
+            static let Duration = "duration"
+            static let Embed = "embed"
+            static let Html = "html"
         }
     }
     

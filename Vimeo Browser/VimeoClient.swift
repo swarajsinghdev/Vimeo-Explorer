@@ -59,7 +59,7 @@ class VimeoClient: BaseClient {
                 completionHandler(success: false)
             case.Success(let res):
                 
-                print("Success: \(res)")
+                //print("Success: \(res)")
                 
                 guard let access_token = res![Keys.VimeoAccessToken] as? String else {
                     print("No access token was found when authenticating")
@@ -86,11 +86,41 @@ class VimeoClient: BaseClient {
             case .Failure(let error):
                 
                 print("auth failed with error: \(error)")
-            case.Success(let res):
+            case .Success(let res):
                 
                 guard let data = res!["data"] as? [[String:AnyObject]] else {
                     print("category data not found")
                     completionHandler(.Failure(NSError(domain: "VimeoClient:fetch", code: 0, userInfo: [NSLocalizedDescriptionKey: "category data not found"])))
+                    return
+                }
+                
+                completionHandler(.Success(data))
+            }
+        }
+    }
+    
+    func getVideosForCategory(category:Category, completionHandler: CompletionHandlerType) {
+        
+        let urlString = "\(VimeoAPI.BaseUrl)\(category.uri)/videos"
+        
+        let params = [
+            "filter": "embeddable",
+            "filter_embeddable": "true",
+            "sort": "date",
+            "direction": "desc"
+        ]
+        
+        VimeoClient.sharedInstance().fetch(urlString, parameters: params, headers: getDefaultHeaders) { result in
+            
+            switch result {
+            case .Failure(let error):
+                
+                print("Get videos for category failure: \(error)")
+                completionHandler(result)
+            case .Success(let res):
+                
+                guard let data = res!["data"] as? [[String:AnyObject]] else {
+                    completionHandler(.Failure(NSError(domain: "VimeoClient:getVideosForCategory", code: 0, userInfo: [NSLocalizedDescriptionKey: "no videos found in category \(category.name)"])))
                     return
                 }
                 

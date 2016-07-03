@@ -20,6 +20,8 @@
 		F352D8701D25951500956279 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D86F1D25951500956279 /* Constants.swift */; };
 		F352D8721D25A03600956279 /* VimeoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D8711D25A03600956279 /* VimeoClient.swift */; };
 		F35B161B1D26DAFD006A745C /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B161A1D26DAFD006A745C /* Category.swift */; };
+		F3A28E7F1D29241900FE0394 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A28E7E1D29241900FE0394 /* Video.swift */; };
+		F3A28E811D2959AF00FE0394 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A28E801D2959AF00FE0394 /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +52,8 @@
 		F352D86F1D25951500956279 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		F352D8711D25A03600956279 /* VimeoClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VimeoClient.swift; sourceTree = "<group>"; };
 		F35B161A1D26DAFD006A745C /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		F3A28E7E1D29241900FE0394 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		F3A28E801D2959AF00FE0394 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +120,8 @@
 				F352D8691D25923500956279 /* CoreDataStackManager.swift */,
 				F352D86B1D25935A00956279 /* ImageCache.swift */,
 				F35B161A1D26DAFD006A745C /* Category.swift */,
+				F3A28E7E1D29241900FE0394 /* Video.swift */,
+				F3A28E801D2959AF00FE0394 /* DataManager.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -258,7 +264,9 @@
 				F35B161B1D26DAFD006A745C /* Category.swift in Sources */,
 				F352D8701D25951500956279 /* Constants.swift in Sources */,
 				F352D84B1D258FFC00956279 /* Vimeo_Browser.xcdatamodeld in Sources */,
+				F3A28E811D2959AF00FE0394 /* DataManager.swift in Sources */,
 				F352D8431D258FFC00956279 /* AppDelegate.swift in Sources */,
+				F3A28E7F1D29241900FE0394 /* Video.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

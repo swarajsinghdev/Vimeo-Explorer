@@ -18,6 +18,7 @@ class Category: NSManagedObject {
     @NSManaged var topLevel:NSNumber
     @NSManaged var imageUrl:String
     @NSManaged var imageWithPlayIconUrl:String
+    @NSManaged var videos:[Video]?
     
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
@@ -29,13 +30,13 @@ class Category: NSManagedObject {
         let entity = NSEntityDescription.entityForName("Category", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
-        let keys = VimeoClient.Keys.Category.self
+        let keys = VimeoClient.Keys.self
         
         id = dictionary[keys.ResourceKey] as! String
         name = dictionary[keys.Name] as! String
         uri = dictionary[keys.Uri] as! String
         link = dictionary[keys.Link] as! String
-        topLevel = dictionary[keys.TopLevel] as! NSNumber
+        topLevel = dictionary[keys.Category.TopLevel] as! NSNumber
         
         // we dont need all the sizes here, we'll pick a default of 960x540
         if let pictures = dictionary[keys.Pictures] as? [[String:AnyObject]] {
