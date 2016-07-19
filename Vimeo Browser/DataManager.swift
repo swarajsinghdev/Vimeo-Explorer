@@ -61,6 +61,10 @@ class DataManager {
                                     let category = Category(dictionary: dictionary, context: self.sharedContext)
                                     return category
                                 }
+                                
+                                self.loadVideosForCategories() { success in
+                                    completionHanlder(success: true)
+                                }
                             }
                         }
                         
@@ -70,9 +74,11 @@ class DataManager {
                     }
                 }
                 
+            } else {
+                self.loadVideosForCategories() { success in
+                    completionHanlder(success: true)
+                }
             }
-            
-            completionHanlder(success: true)
             
         } catch let error {
             print(error)
@@ -85,11 +91,16 @@ class DataManager {
         let fetchRequest = NSFetchRequest(entityName: "Category")
         
         do {
+            
             let categories = try self.sharedContext.executeFetchRequest(fetchRequest) as! [Category]
+            let categoryCount = categories.count
+            var counter = 0
             
             for category in categories {
                 
                 VimeoClient.sharedInstance().getVideosForCategory(category) { result in
+                    
+                    counter += 1
                     
                     switch result {
                     case .Success(let res):
@@ -100,30 +111,35 @@ class DataManager {
                             return
                         }
                         
-                        let _ = videos.map() { (dictionary:[String:AnyObject]) -> Video in
-                            
-                            if let resourceKey = dictionary[VimeoClient.Keys.ResourceKey] as? String {
-                                if let video = self.findVideoByResourceKey(resourceKey) {
-                                    return video
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let _ = videos.map() { (dictionary:[String:AnyObject]) -> Video in
+                                
+                                if let resourceKey = dictionary[VimeoClient.Keys.ResourceKey] as? String {
+                                    if let video = self.findVideoByResourceKey(resourceKey) {
+                                        return video
+                                    }
                                 }
+                                
+                                let video = Video(dictionary: dictionary, context: self.sharedContext)
+                                video.category = category
+                                return video
                             }
                             
-                            let video = Video(dictionary: dictionary, context: self.sharedContext)
-                            video.category = category
-                            return video
-                        }
-                        
-                        do {
-                            try self.sharedContext.save()
-                            
-                            completionHandlder(success: true)
-                        } catch let error {
-                            print("load videos for category error: \(error))")
-                            completionHandlder(success: false)
+                            do {
+                                try self.sharedContext.save()
+                            } catch let error {
+                                print("load videos for category error: \(error))")
+                                completionHandlder(success: false)
+                            }
                         }
                     case .Failure(let error):
                         print("load videos for category error: \(error))")
                         completionHandlder(success: false)
+                    }
+                    
+                    //TODO: REMOVE THIS, JUST STOPS HITTING LIMITS TOO QUICK
+                    if counter == 1 {
+                        completionHandlder(success: true)
                     }
                 }
             }

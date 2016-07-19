@@ -40,7 +40,7 @@ class BaseClient: NSObject {
         
         if let headers = headers {
             for (key,value) in headers {
-                request.setValue(value as? String, forHTTPHeaderField: key)
+                request.setValue(value, forHTTPHeaderField: key)
             }
         }
         
@@ -83,6 +83,7 @@ class BaseClient: NSObject {
     // Response handler, parses JSON response, checks status code, and calls the completion handler
     private func handleResponse(request:NSURLRequest, data:NSData?, response:NSURLResponse?, error:NSError?, completionHandler:CompletionHandlerType) -> Void {
         
+        print(response)
         guard (error == nil) else {
             completionHandler(Result.Failure(error!))
             return

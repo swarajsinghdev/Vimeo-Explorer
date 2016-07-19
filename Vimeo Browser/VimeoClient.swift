@@ -80,7 +80,11 @@ class VimeoClient: BaseClient {
         
         let urlString = "\(VimeoAPI.BaseUrl)\(Methods.CategoriesMethod)"
         
-        VimeoClient.sharedInstance().fetch(urlString, parameters: [:], headers: getDefaultHeaders) { result in
+        let params = [
+            "fields": "uri,name,link,resource_key,top_level,pictures"
+        ]
+        
+        VimeoClient.sharedInstance().fetch(urlString, parameters: params, headers: getDefaultHeaders) { result in
             
             switch result {
             case .Failure(let error):
@@ -107,7 +111,8 @@ class VimeoClient: BaseClient {
             "filter": "embeddable",
             "filter_embeddable": "true",
             "sort": "date",
-            "direction": "desc"
+            "direction": "desc",
+            "fields": "resource_key,uri,link,name,width,height,embed.html,created_time,description,duration,stats.plays,user.name,pictures"
         ]
         
         VimeoClient.sharedInstance().fetch(urlString, parameters: params, headers: getDefaultHeaders) { result in

@@ -11,7 +11,7 @@ import CoreData
 
 class Category: NSManagedObject {
     
-    @NSManaged var id:String
+    @NSManaged var resourceKey:String
     @NSManaged var name:String
     @NSManaged var uri:String
     @NSManaged var link:String
@@ -32,22 +32,24 @@ class Category: NSManagedObject {
         
         let keys = VimeoClient.Keys.self
         
-        id = dictionary[keys.ResourceKey] as! String
+        resourceKey = dictionary[keys.ResourceKey] as! String
         name = dictionary[keys.Name] as! String
         uri = dictionary[keys.Uri] as! String
         link = dictionary[keys.Link] as! String
         topLevel = dictionary[keys.Category.TopLevel] as! NSNumber
         
         // we dont need all the sizes here, we'll pick a default of 960x540
-        if let pictures = dictionary[keys.Pictures] as? [[String:AnyObject]] {
+        if let pictures = dictionary[keys.Pictures] as? [String:AnyObject] {
             
-            for picture in pictures {
-                
-                let width = picture[keys.PicturesWidth] as! Int
-                
-                if width == VimeoClient.Constants.CategoryImageWidth {
-                    imageUrl = picture[keys.PicturesLink] as! String
-                    imageWithPlayIconUrl = picture[keys.PicturesLinkWithPlayIcon] as! String
+            if let sizes = pictures["sizes"] as? [[String:AnyObject]] {
+                for picture in sizes {
+                    
+                    let width = picture[keys.PicturesWidth] as! Int
+                    
+                    if width == VimeoClient.Constants.CategoryImageWidth {
+                        imageUrl = picture[keys.PicturesLink] as! String
+                        imageWithPlayIconUrl = picture[keys.PicturesLinkWithPlayIcon] as! String
+                    }
                 }
             }
         }

@@ -1,26 +1,147 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BVG-gK-vJ9">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Favourite Table View Controller-->
+        <scene sceneID="cmW-LI-7EG">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Vimeo_Browser" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="zGF-P8-QEP" customClass="FavouriteTableViewController" customModule="Vimeo_Browser" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="IDR-ag-hiU"/>
+                        <viewControllerLayoutGuide type="bottom" id="cAc-ka-LQL"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="n6n-LS-6tr">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3Dw-c8-4K5">
+                                <rect key="frame" x="0.0" y="28" width="600" height="523"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3Dw-c8-4K5" firstAttribute="top" secondItem="IDR-ag-hiU" secondAttribute="bottom" constant="8" id="ASn-HW-qTC"/>
+                            <constraint firstItem="3Dw-c8-4K5" firstAttribute="leading" secondItem="n6n-LS-6tr" secondAttribute="leadingMargin" constant="-20" id="HSV-XI-QwO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3Dw-c8-4K5" secondAttribute="trailing" constant="-20" id="Ti3-y1-34A"/>
+                            <constraint firstItem="cAc-ka-LQL" firstAttribute="top" secondItem="3Dw-c8-4K5" secondAttribute="bottom" id="Xyc-iI-iqp"/>
+                        </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="8fx-jY-6zQ"/>
+                    <connections>
+                        <outlet property="tableView" destination="3Dw-c8-4K5" id="etK-IG-gVg"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BCe-fP-rhd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1028" y="730"/>
+        </scene>
+        <!--Explore-->
+        <scene sceneID="C8d-ES-zZC">
+            <objects>
+                <viewController title="Explore" id="bjJ-Nn-NrM" customClass="MainTableViewController" customModule="Vimeo_Browser" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1eN-qI-ah8"/>
+                        <viewControllerLayoutGuide type="bottom" id="v6A-PR-d9U"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Chb-YO-uYS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AQv-rj-3XB">
+                                <rect key="frame" x="0.0" y="20" width="600" height="531"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <sections/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="AQv-rj-3XB" firstAttribute="leading" secondItem="Chb-YO-uYS" secondAttribute="leadingMargin" constant="-20" id="Mxs-qf-r4p"/>
+                            <constraint firstItem="AQv-rj-3XB" firstAttribute="top" secondItem="1eN-qI-ah8" secondAttribute="bottom" id="ODu-Vg-vxE"/>
+                            <constraint firstItem="v6A-PR-d9U" firstAttribute="top" secondItem="AQv-rj-3XB" secondAttribute="bottom" id="SGd-E5-3WV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="AQv-rj-3XB" secondAttribute="trailing" constant="-20" id="lBT-zd-URa"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" systemItem="featured" id="oAH-9i-onz"/>
+                    <connections>
+                        <outlet property="tableView" destination="AQv-rj-3XB" id="4DM-sK-8Lu"/>
+                        <segue destination="9JK-VY-EVP" kind="showDetail" identifier="showVideoDetailSegue" id="3qt-HT-mdY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YqL-B6-Oy1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="69"/>
+        </scene>
+        <!--Video View Controller-->
+        <scene sceneID="2w8-p1-BYD">
+            <objects>
+                <viewController id="9JK-VY-EVP" customClass="VideoViewController" customModule="Vimeo_Browser" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TZJ-eb-gpp"/>
+                        <viewControllerLayoutGuide type="bottom" id="dP4-W2-wOH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hAC-pX-5UZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TBL-xT-yBp">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="233"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="TBL-xT-yBp" secondAttribute="height" multiplier="16:9" id="9Cr-Ea-ddf"/>
+                                </constraints>
+                            </webView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q5o-ec-AtH">
+                                <rect key="frame" x="12" y="241" width="390" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ob4-iI-y25"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="TBL-xT-yBp" firstAttribute="top" secondItem="hAC-pX-5UZ" secondAttribute="topMargin" id="Olw-pJ-kH2"/>
+                            <constraint firstItem="q5o-ec-AtH" firstAttribute="leading" secondItem="hAC-pX-5UZ" secondAttribute="leadingMargin" constant="-8" id="asi-5p-QGm"/>
+                            <constraint firstItem="TBL-xT-yBp" firstAttribute="leading" secondItem="hAC-pX-5UZ" secondAttribute="leadingMargin" constant="-20" id="blH-qM-oWY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="q5o-ec-AtH" secondAttribute="trailing" constant="-8" id="hK1-Te-QK2"/>
+                            <constraint firstItem="q5o-ec-AtH" firstAttribute="top" secondItem="TBL-xT-yBp" secondAttribute="bottom" constant="8" id="mm4-Ko-8mg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TBL-xT-yBp" secondAttribute="trailing" constant="-20" id="wHl-j7-jPr"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="titleLabel" destination="q5o-ec-AtH" id="coh-Ta-cmt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8ml-0r-duo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1811" y="285"/>
+        </scene>
+        <!--Main Tab View Controller-->
+        <scene sceneID="eVa-gs-eno">
+            <objects>
+                <tabBarController id="BVG-gK-vJ9" customClass="MainTabViewController" customModule="Vimeo_Browser" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="g20-BK-UL8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="bjJ-Nn-NrM" kind="relationship" relationship="viewControllers" id="tWw-xD-vKs"/>
+                        <segue destination="zGF-P8-QEP" kind="relationship" relationship="viewControllers" id="U2L-SL-SAv"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NTj-6r-cie" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="208" y="400"/>
         </scene>
     </scenes>
 </document>

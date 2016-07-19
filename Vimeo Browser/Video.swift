@@ -11,22 +11,22 @@ import CoreData
 
 class Video: NSManagedObject {
     
-    @NSManaged var resourceKey:String
-    @NSManaged var id:Int
-    @NSManaged var name:String
-    @NSManaged var videoDescription:String?
-    @NSManaged var uri:String
-    @NSManaged var link:String
-    @NSManaged var duration:Int
-    @NSManaged var width:Int
-    @NSManaged var height:Int
-    @NSManaged var createdTime:NSDate
-    @NSManaged var embedCode:String
-    @NSManaged var numberOfPlays:Int
-    @NSManaged var username:String
-    @NSManaged var imageUrl:String
-    @NSManaged var imageWithPlayIconUrl:String
-    @NSManaged var category:Category?
+    @NSManaged var resourceKey: String
+    @NSManaged var id: String
+    @NSManaged var name: String
+    @NSManaged var videoDescription: String?
+    @NSManaged var uri: String
+    @NSManaged var link: String
+    @NSManaged var duration: NSNumber
+    @NSManaged var width: NSNumber
+    @NSManaged var height: NSNumber
+    @NSManaged var createdTime: NSDate
+    @NSManaged var embedCode: String
+    @NSManaged var numberOfPlays: NSNumber
+    @NSManaged var username: String
+    @NSManaged var imageUrl: String
+    @NSManaged var imageWithPlayIconUrl: String
+    @NSManaged var category: Category?
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -43,21 +43,25 @@ class Video: NSManagedObject {
         name = dictionary[keys.Name] as! String
         videoDescription = dictionary[keys.Video.Description] as? String
         uri = dictionary[keys.Uri] as! String
-        link = dictionary[keys.Link] as! String
-        duration = dictionary[keys.Video.Duration] as! Int
-        width = dictionary["width"] as! Int
-        height = dictionary["height"] as! Int
+        link = (dictionary[keys.Link] as! String).stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        if let dur = dictionary[keys.Video.Duration] as? NSNumber {
+            duration = dur
+        }
+        width = dictionary["width"] as! NSNumber
+        height = dictionary["height"] as! NSNumber
         
         
         let url = NSURL(string: link)!
-        id = Int(url.lastPathComponent!)!
+        if let lastPath = url.lastPathComponent {
+            id = lastPath
+        }
         
         if let embed = dictionary[keys.Video.Embed] as? [String:AnyObject] {
             embedCode = embed[keys.Video.Html] as! String
         }
         
         if let stats = dictionary["stats"] as? [String:AnyObject] {
-            if let plays = stats["plays"] as? Int {
+            if let plays = stats["plays"] as? NSNumber {
                 numberOfPlays = plays
             }
         }
@@ -67,32 +71,37 @@ class Video: NSManagedObject {
         }
         
         if let dateString = dictionary["created_time"] as? String {
+            
             let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            dateFormatter.timeZone = NSTimeZone(name: "UTC")
             if let date = dateFormatter.dateFromString(dateString) {
                 createdTime = date
             }
         }
-        
+    
         // we dont need all the sizes here, we'll pick a default of 960x540
-        if let pictures = dictionary[keys.Pictures] as? [[String:AnyObject]] {
+        if let pictures = dictionary[keys.Pictures] as? [String:AnyObject] {
             
-            for picture in pictures {
-                
-                let width = picture[keys.PicturesWidth] as! Int
-                
-                if width == VimeoClient.Constants.CategoryImageWidth {
-                    imageUrl = picture[keys.PicturesLink] as! String
-                    imageWithPlayIconUrl = picture[keys.PicturesLinkWithPlayIcon] as! String
+            if let sizes = pictures["sizes"] as? [[String:AnyObject]] {
+                for picture in sizes {
+                    
+                    let width = picture[keys.PicturesWidth] as! Int
+                    
+                    if width == VimeoClient.Constants.CategoryImageWidth {
+                        imageUrl = picture[keys.PicturesLink] as! String
+                        imageWithPlayIconUrl = picture[keys.PicturesLinkWithPlayIcon] as! String
+                    }
                 }
             }
         }
         
+        /**
         do {
             try context.save()
         } catch let error {
             print("V save error: \(error)")
-        }
+        }*/
         
     }
     
