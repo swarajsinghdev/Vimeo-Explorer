@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="VideoBodyView" customModule="Vimeo_Browser" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Title" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXw-Ja-hiY" userLabel="titleLabel">
+                    <rect key="frame" x="8" y="8" width="584" height="17"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Description" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lzn-Rd-GUk" userLabel="playsLabel">
+                    <rect key="frame" x="8" y="29" width="584" height="14"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                    <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9Q-A1-ASG" userLabel="seperatorView">
+                    <rect key="frame" x="8" y="47" width="584" height="1"/>
+                    <color key="backgroundColor" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="6w0-GD-7ny"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dS1-fP-0Hb" userLabel="descriptionLabel">
+                    <rect key="frame" x="8" y="52" width="584" height="17"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="BXw-Ja-hiY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="7N9-fc-obL"/>
+                <constraint firstItem="P9Q-A1-ASG" firstAttribute="top" secondItem="Lzn-Rd-GUk" secondAttribute="bottom" constant="4" id="8M9-uH-1d8"/>
+                <constraint firstAttribute="trailing" secondItem="P9Q-A1-ASG" secondAttribute="trailing" constant="8" id="NTs-4x-QL8"/>
+                <constraint firstAttribute="trailing" secondItem="Lzn-Rd-GUk" secondAttribute="trailing" constant="8" id="RLk-RO-eCz"/>
+                <constraint firstItem="BXw-Ja-hiY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Zag-38-pvX"/>
+                <constraint firstAttribute="trailing" secondItem="dS1-fP-0Hb" secondAttribute="trailing" constant="8" id="aOx-ri-7N1"/>
+                <constraint firstItem="P9Q-A1-ASG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="foj-AR-J1h"/>
+                <constraint firstItem="dS1-fP-0Hb" firstAttribute="top" secondItem="P9Q-A1-ASG" secondAttribute="bottom" constant="4" id="ghT-33-NOj"/>
+                <constraint firstItem="Lzn-Rd-GUk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="gqH-Ou-XIi"/>
+                <constraint firstItem="dS1-fP-0Hb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="kbS-Ck-gzN"/>
+                <constraint firstAttribute="trailing" secondItem="BXw-Ja-hiY" secondAttribute="trailing" constant="8" id="pON-zR-wBb"/>
+                <constraint firstItem="Lzn-Rd-GUk" firstAttribute="top" secondItem="BXw-Ja-hiY" secondAttribute="bottom" constant="4" id="vLp-yV-uAa"/>
+            </constraints>
+            <connections>
+                <outlet property="descriptionLabel" destination="dS1-fP-0Hb" id="TfP-9L-39f"/>
+                <outlet property="playsLabel" destination="Lzn-Rd-GUk" id="8k1-xv-71T"/>
+                <outlet property="titleLabel" destination="BXw-Ja-hiY" id="apt-1Z-Dlk"/>
+            </connections>
+        </view>
+    </objects>
+</document>

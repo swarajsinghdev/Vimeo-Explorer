@@ -57,6 +57,7 @@ class DataManager {
                         if let categories = res as? [[String:AnyObject]] {
                             
                             dispatch_async(dispatch_get_main_queue()) {
+                                
                                 let _ = categories.map() { (dictionary:[String:AnyObject]) -> Category in
                                     let category = Category(dictionary: dictionary, context: self.sharedContext)
                                     return category
@@ -75,6 +76,7 @@ class DataManager {
                 }
                 
             } else {
+                
                 self.loadVideosForCategories() { success in
                     completionHanlder(success: true)
                 }
@@ -89,7 +91,7 @@ class DataManager {
     func loadVideosForCategories(completionHandlder: (success:Bool) -> Void) {
         
         let fetchRequest = NSFetchRequest(entityName: "Category")
-        //fetchRequest.fetchLimit = 1 // TODO: Remove this, stops me hitting limits too quickly while dev.
+        fetchRequest.fetchLimit = 1 // TODO: Remove this, stops me hitting limits too quickly while dev.
         
         do {
             
@@ -104,19 +106,24 @@ class DataManager {
                     counter += 1
                     
                     switch result {
+                        
                     case .Success(let res):
                         
                         guard let videos = res as? [[String:AnyObject]] else {
+                            
                             print("load videos for category error: No videos found)")
                             completionHandlder(success: false)
                             return
                         }
                         
                         dispatch_async(dispatch_get_main_queue()) {
+                            
                             let _ = videos.map() { (dictionary:[String:AnyObject]) -> Video in
                                 
                                 if let resourceKey = dictionary[VimeoClient.Keys.ResourceKey] as? String {
+                                    
                                     if let video = self.findVideoByResourceKey(resourceKey) {
+                                        
                                         return video
                                     }
                                 }
@@ -129,11 +136,13 @@ class DataManager {
                             do {
                                 try self.sharedContext.save()
                             } catch let error {
+                                
                                 print("load videos for category error: \(error))")
                                 completionHandlder(success: false)
                             }
                         }
                     case .Failure(let error):
+                        
                         print("load videos for category error: \(error))")
                         completionHandlder(success: false)
                     }
