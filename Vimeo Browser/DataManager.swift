@@ -89,6 +89,7 @@ class DataManager {
     func loadVideosForCategories(completionHandlder: (success:Bool) -> Void) {
         
         let fetchRequest = NSFetchRequest(entityName: "Category")
+        //fetchRequest.fetchLimit = 1 // TODO: Remove this, stops me hitting limits too quickly while dev.
         
         do {
             
@@ -137,8 +138,7 @@ class DataManager {
                         completionHandlder(success: false)
                     }
                     
-                    //TODO: REMOVE THIS, JUST STOPS HITTING LIMITS TOO QUICK
-                    if counter == 1 {
+                    if counter == categoryCount {
                         completionHandlder(success: true)
                     }
                 }

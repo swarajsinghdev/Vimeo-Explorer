@@ -70,6 +70,7 @@ extension MainTableViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         selectedVideo = (fetchedResultsController.objectAtIndexPath(indexPath) as! Video)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.performSegueWithIdentifier("showVideoDetailSegue", sender: self)
     }
 }
@@ -91,20 +92,7 @@ extension MainTableViewController: UITableViewDataSource {
         let video = fetchedResultsController.objectAtIndexPath(indexPath) as! Video
         
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! VideoCell
-        cell.titleLabel.text = video.name
-        cell.categoryLabel.text = video.category!.name
-        cell.metaLabel.text = "\(video.numberOfPlays) plays"
-        
-        VimeoClient.sharedInstance().getImage(video.imageUrl) { (success, data, errorDescription) in
-        
-            if let data = data {
-                if let image = UIImage(data: data) {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        cell.featuredImage.image = image
-                    }
-                }
-            }
-        }
+        cell.setVideoContent(video)
         
         return cell
     }
