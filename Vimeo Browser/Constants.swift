@@ -23,7 +23,7 @@ extension BaseClient {
     struct Constants {
         static let CategoryImageWidth = 960
         static let CategoryImageHeight = 540
-    }
+    } 
     
     struct Keys {
         

@@ -39,8 +39,7 @@ class MainTableViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = 100
         
         tableView.registerNib(UINib(nibName: "VideoCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
         

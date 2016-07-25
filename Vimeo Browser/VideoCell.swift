@@ -29,13 +29,13 @@ class VideoCell: UITableViewCell {
         categoryLabel.text = video.category!.name
         metaLabel.text = "\(video.numberOfPlays) plays"
         
-        VimeoClient.sharedInstance().getImage(video.imageUrl) { (success, data, errorDescription) in
-            
-            if let data = data {
-                if let image = UIImage(data: data) {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.featuredImage.image = image
-                    }
+        self.featuredImage.image = UIImage(named: "placeholder")
+        
+        VimeoClient.sharedInstance().getImage(video.imageUrl) { (success, image, errorDescription) in
+    
+            if let image = image {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.featuredImage.image = image
                 }
             }
         }

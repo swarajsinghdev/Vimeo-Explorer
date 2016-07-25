@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -12,22 +12,19 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k1M-Xg-li6" id="ETt-21-j3a">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JEV-tm-JJs">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="JEV-tm-JJs">
                         <rect key="frame" x="0.0" y="0.0" width="131" height="100"/>
                         <constraints>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="7da-xC-Pji"/>
                             <constraint firstAttribute="width" constant="131" id="aYA-tz-YHs"/>
-                            <constraint firstAttribute="height" constant="100" id="eUl-jf-Bdu"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="131" id="o05-4w-Vh3"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o0Z-oz-Z62">
-                        <rect key="frame" x="139" y="8" width="173" height="41"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <rect key="frame" x="139" y="0.0" width="173" height="49"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QUK-rq-qJh">
@@ -36,8 +33,8 @@
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="0Y9-b2-imV"/>
                             <constraint firstAttribute="height" constant="21" id="3c7-fI-rAu"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wi3-nJ-hhl">
@@ -46,17 +43,17 @@
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="3bY-FY-pS4"/>
                             <constraint firstAttribute="height" constant="21" id="WyH-Dc-RhC"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="wi3-nJ-hhl" firstAttribute="trailing" secondItem="ETt-21-j3a" secondAttribute="trailingMargin" id="7s9-TG-0OH"/>
                     <constraint firstItem="QUK-rq-qJh" firstAttribute="leading" secondItem="JEV-tm-JJs" secondAttribute="trailing" constant="8" id="A4Q-5O-NXs"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="JEV-tm-JJs" secondAttribute="bottom" constant="-9" id="Ath-9p-lJ3"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="JEV-tm-JJs" secondAttribute="bottom" constant="-8" id="Ath-9p-lJ3"/>
                     <constraint firstItem="o0Z-oz-Z62" firstAttribute="leading" secondItem="JEV-tm-JJs" secondAttribute="trailing" constant="8" id="DSs-ga-xGB"/>
-                    <constraint firstItem="o0Z-oz-Z62" firstAttribute="top" secondItem="ETt-21-j3a" secondAttribute="topMargin" id="Ghn-8N-efT"/>
+                    <constraint firstItem="o0Z-oz-Z62" firstAttribute="top" secondItem="ETt-21-j3a" secondAttribute="topMargin" constant="-8" id="Ghn-8N-efT"/>
                     <constraint firstItem="QUK-rq-qJh" firstAttribute="trailing" secondItem="ETt-21-j3a" secondAttribute="trailingMargin" id="Gnq-jW-EsG"/>
                     <constraint firstItem="wi3-nJ-hhl" firstAttribute="leading" secondItem="JEV-tm-JJs" secondAttribute="trailing" constant="8" id="IeM-pP-bhr"/>
                     <constraint firstItem="wi3-nJ-hhl" firstAttribute="top" secondItem="o0Z-oz-Z62" secondAttribute="bottom" id="JS1-Rc-k5H"/>
@@ -78,4 +75,7 @@
             <point key="canvasLocation" x="521" y="485"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="placeholder" width="131" height="88"/>
+    </resources>
 </document>

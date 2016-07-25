@@ -6,7 +6,7 @@
 //  Copyright © 2016 Martin Kelly. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class BaseClient: NSObject {
     
@@ -121,19 +121,29 @@ class BaseClient: NSObject {
         
     }
     
-    func getImage(urlString:String, completionHandler:(success:Bool, data:NSData?, errorDescription:String?) -> Void) -> Void {
+    func getImage(urlString:String, completionHandler:(success:Bool, image:UIImage?, errorDescription:String?) -> Void) -> Void {
         
         let url = NSURL(string: urlString)
         let request = NSMutableURLRequest(URL: url!)
         
+        if let image = BaseClient.Caches.imageCache.imageWithIdentifier(urlString) {
+            completionHandler(success: true, image: image, errorDescription: nil)
+            return
+        }
+        
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
             guard let data = data where error == nil else {
-                completionHandler(success: false,data: nil, errorDescription: error?.localizedDescription)
+                completionHandler(success: false,image: nil, errorDescription: error?.localizedDescription)
                 return
             }
             
-            completionHandler(success: true, data: data, errorDescription: nil)
+            if let image = UIImage(data: data) {
+                BaseClient.Caches.imageCache.storeImage(image, withIdentifier: urlString)
+                completionHandler(success: true, image: image, errorDescription: nil)
+            } else {
+                completionHandler(success: false, image: nil, errorDescription: "Could not convert returned data into image object")
+            }
         }
         
         task.resume()
