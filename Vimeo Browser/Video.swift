@@ -26,6 +26,7 @@ class Video: NSManagedObject {
     @NSManaged var username: String
     @NSManaged var imageUrl: String
     @NSManaged var imageWithPlayIconUrl: String
+    @NSManaged var isFavourite:NSNumber
     @NSManaged var category: Category?
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
@@ -49,7 +50,7 @@ class Video: NSManagedObject {
         }
         width = dictionary["width"] as! NSNumber
         height = dictionary["height"] as! NSNumber
-        
+        isFavourite = false
         
         let url = NSURL(string: link)!
         if let lastPath = url.lastPathComponent {

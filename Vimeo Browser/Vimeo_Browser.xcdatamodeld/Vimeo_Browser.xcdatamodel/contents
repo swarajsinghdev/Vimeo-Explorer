@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15E65" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Automatic">
     <entity name="Category" representedClassName=".Category" syncable="YES">
         <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageWithPlayIconUrl" optional="YES" attributeType="String" syncable="YES"/>
@@ -18,6 +18,7 @@
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageWithPlayIconUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isFavourite" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="link" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="numberOfPlays" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -30,6 +31,6 @@
     </entity>
     <elements>
         <element name="Category" positionX="-63" positionY="-18" width="128" height="165"/>
-        <element name="Video" positionX="-63" positionY="36" width="128" height="285"/>
+        <element name="Video" positionX="-63" positionY="36" width="128" height="300"/>
     </elements>
 </model>
