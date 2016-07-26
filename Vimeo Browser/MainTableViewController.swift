@@ -12,9 +12,10 @@ import CoreData
 class MainTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    let cellIdentifier = "VideoCell"
+    
     var selectedVideo:Video?
     
+    // MARK: Core Data Helpers
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
         let fetch = NSFetchRequest(entityName: "Video")
@@ -41,7 +42,7 @@ class MainTableViewController: UIViewController {
         tableView.dataSource = self
         tableView.rowHeight = 100
         
-        tableView.registerNib(UINib(nibName: "VideoCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        tableView.registerNib(UINib(nibName: "VideoCell", bundle: nil), forCellReuseIdentifier: VimeoClient.Constants.videoCellIdentifier)
         
         do {
             try self.fetchedResultsController.performFetch()
@@ -54,7 +55,7 @@ class MainTableViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-        if segue.identifier == "showVideoDetailSegue" {
+        if segue.identifier == VimeoClient.Constants.ShowVideoSegueIdentifier {
             
             if let vc = segue.destinationViewController as? VideoViewController, let video = selectedVideo {
                 vc.video = video
@@ -70,7 +71,7 @@ extension MainTableViewController: UITableViewDelegate {
         
         selectedVideo = (fetchedResultsController.objectAtIndexPath(indexPath) as! Video)
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.performSegueWithIdentifier("showVideoDetailSegue", sender: self)
+        self.performSegueWithIdentifier(VimeoClient.Constants.ShowVideoSegueIdentifier, sender: self)
     }
 }
 
@@ -90,7 +91,7 @@ extension MainTableViewController: UITableViewDataSource {
         
         let video = fetchedResultsController.objectAtIndexPath(indexPath) as! Video
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! VideoCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(VimeoClient.Constants.videoCellIdentifier) as! VideoCell
         cell.setVideoContent(video)
         
         return cell

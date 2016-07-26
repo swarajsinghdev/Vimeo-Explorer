@@ -23,6 +23,9 @@ extension BaseClient {
     struct Constants {
         static let CategoryImageWidth = 960
         static let CategoryImageHeight = 540
+        static let videoCellIdentifier = "VideoCell"
+        static let ShowVideoSegueIdentifier = "showVideoDetailSegue"
+        static let ShowFavouriteVideoSegueIdentifier = "favouriteVideoViewSegue"
     } 
     
     struct Keys {

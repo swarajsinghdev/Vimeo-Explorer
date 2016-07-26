@@ -12,12 +12,14 @@ import CoreData
 class FavouriteTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    var selectedVideo:Video?
     
+    // MARK: Core Data Helpers
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
         let fetch = NSFetchRequest(entityName: "Video")
         let sort = NSSortDescriptor(key: "createdTime", ascending: false)
-        let predicate = NSPredicate(format: "favourite = %@", true)
+        let predicate = NSPredicate(format: "isFavourite = %@", NSNumber(bool: true))
         fetch.sortDescriptors = [sort]
         fetch.predicate = predicate
         fetch.fetchBatchSize = 25
@@ -37,24 +39,62 @@ class FavouriteTableViewController: UIViewController {
         
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.rowHeight = 100
+        
+        tableView.registerNib(UINib(nibName: "VideoCell", bundle: nil), forCellReuseIdentifier: VimeoClient.Constants.videoCellIdentifier)
+        
+        do {
+            try self.fetchedResultsController.performFetch()
+            self.tableView.reloadData()
+        } catch let error {
+            print("Fetch error in MainTableViewController: \(error)")
+        }
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == VimeoClient.Constants.ShowFavouriteVideoSegueIdentifier {
+            
+            if let vc = segue.destinationViewController as? VideoViewController, let video = selectedVideo {
+                vc.video = video
+            }
+        }
+    }
 }
 
 extension FavouriteTableViewController: UITableViewDelegate {
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        selectedVideo = (fetchedResultsController.objectAtIndexPath(indexPath) as! Video)
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        self.performSegueWithIdentifier(VimeoClient.Constants.ShowFavouriteVideoSegueIdentifier, sender: self)
+    }
 }
 
 extension FavouriteTableViewController: UITableViewDataSource {
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 0
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 0
+        let sectionInfo = fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        return UITableViewCell(style: .Default, reuseIdentifier: "FavouriteCell")
+        let video = fetchedResultsController.objectAtIndexPath(indexPath) as! Video
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(VimeoClient.Constants.videoCellIdentifier) as! VideoCell
+        cell.setVideoContent(video)
+        
+        return cell
     }
 }
 

@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import CoreData
 
 class VideoViewController: UIViewController {
     
@@ -15,10 +16,13 @@ class VideoViewController: UIViewController {
     
     // MARK: UI Components
     var webView:WKWebView!
-    /**
-    var titleLabel: UILabel!
-    var descriptionLabel: UILabel!*/
     
+    // MARK: Convenience Properties
+    lazy var sharedContext: NSManagedObjectContext = {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }()
+    
+    // MARK: VC Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,6 +47,34 @@ class VideoViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+    // MARK: Actions
+    @IBAction func bookmarkVideo(sender: UIBarButtonItem) {
+    
+        var title = "Success"
+        var message = "Successfully updated bookmark"
+        
+        if video.isFavourite.boolValue {
+            
+            message = "Successfully removed bookmark"
+            video.isFavourite = NSNumber(bool: false)
+        } else {
+            
+            message = "Successfully bookmarked video, you can see this in the bookmarked tab."
+            video.isFavourite = NSNumber(bool: true)
+        }
+        
+        do {
+            try self.sharedContext.save()
+        } catch let error {
+            title = "An error occurred"
+            message = "Encountered an error when saving bookmark status. Please try again."
+            print("*** ERROR Occurred: VideoViewController::bookmarkVideo: \(error)")
+        }
+        
+        self.displayQuickAlert(title, message: message)
+    }
+    
+    // MARK: private functions
     private func setupWebView() {
         
         let source: NSString = "var meta = document.createElement('meta');" +

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F31FC3A21D47912100052432 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31FC3A11D47912100052432 /* ViewController+Extension.swift */; };
 		F352D8431D258FFC00956279 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D8421D258FFC00956279 /* AppDelegate.swift */; };
 		F352D8451D258FFC00956279 /* MainTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F352D8441D258FFC00956279 /* MainTabViewController.swift */; };
 		F352D8481D258FFC00956279 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F352D8461D258FFC00956279 /* Main.storyboard */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F31FC3A11D47912100052432 /* ViewController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
 		F352D83F1D258FFC00956279 /* Vimeo Browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Vimeo Browser.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F352D8421D258FFC00956279 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F352D8441D258FFC00956279 /* MainTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +94,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F31FC3A01D47910800052432 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F38C22231D41872F00CECBD7 /* Date+Extension.swift */,
+				F31FC3A11D47912100052432 /* ViewController+Extension.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		F352D8361D258FFC00956279 = {
 			isa = PBXGroup;
 			children = (
@@ -117,8 +128,8 @@
 				F352D8651D25901D00956279 /* Model */,
 				F3ABC8201D32CDF600FD2445 /* Controller */,
 				F39DE7031D3EBAF5007AF6AA /* View */,
+				F31FC3A01D47910800052432 /* Extensions */,
 				F352D8671D25903B00956279 /* Supporting Files */,
-				F38C22231D41872F00CECBD7 /* Date+Extension.swift */,
 				F38C22271D418F0400CECBD7 /* TODO.rtf */,
 			);
 			path = "Vimeo Browser";
@@ -324,6 +335,7 @@
 				F352D8701D25951500956279 /* Constants.swift in Sources */,
 				F352D84B1D258FFC00956279 /* Vimeo_Browser.xcdatamodeld in Sources */,
 				F3A28E811D2959AF00FE0394 /* DataManager.swift in Sources */,
+				F31FC3A21D47912100052432 /* ViewController+Extension.swift in Sources */,
 				F352D8431D258FFC00956279 /* AppDelegate.swift in Sources */,
 				F38C22221D4182F300CECBD7 /* VideoBodyView.swift in Sources */,
 				F3A28E7F1D29241900FE0394 /* Video.swift in Sources */,
