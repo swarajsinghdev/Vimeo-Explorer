@@ -67,7 +67,13 @@
                             <constraint firstItem="AQv-rj-3XB" firstAttribute="top" secondItem="Chb-YO-uYS" secondAttribute="top" id="mR8-Nc-LfT"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Featured" id="Ozl-9O-ZmL"/>
+                    <navigationItem key="navigationItem" title="Featured" id="Ozl-9O-ZmL">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="BSv-h9-A1N">
+                            <connections>
+                                <action selector="refreshData:" destination="bjJ-Nn-NrM" id="7tB-N6-4yh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="tableView" destination="AQv-rj-3XB" id="4DM-sK-8Lu"/>
@@ -164,6 +170,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="fsS-79-8Xr"/>
+        <segue reference="h34-Pi-u5S"/>
     </inferredMetricsTieBreakers>
 </document>

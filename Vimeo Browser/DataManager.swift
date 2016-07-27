@@ -29,13 +29,10 @@ class DataManager {
         VimeoClient.sharedInstance().authenticate() { success in
             self.loadCategoryData() { success in
                 self.loadVideosForCategories() { done in
-                    completionHanlder(success: true)
-                    return
+                    completionHanlder(success: done)
                 }
             }
         }
-        
-        completionHanlder(success: false)
     }
     
     func loadCategoryData(completionHanlder: (success:Bool) -> Void) {
@@ -78,7 +75,7 @@ class DataManager {
             } else {
                 
                 self.loadVideosForCategories() { success in
-                    completionHanlder(success: true)
+                    completionHanlder(success: success)
                 }
             }
             
@@ -135,6 +132,7 @@ class DataManager {
                             
                             do {
                                 try self.sharedContext.save()
+                                completionHandlder(success: true)
                             } catch let error {
                                 
                                 print("load videos for category error: \(error))")

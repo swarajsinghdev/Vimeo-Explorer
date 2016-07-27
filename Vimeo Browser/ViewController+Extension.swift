@@ -17,7 +17,9 @@ extension UIViewController {
             self.dismissViewControllerAnimated(true, completion: nil)
         }))
         
-        self.presentViewController(alertVC, animated: true, completion: nil)
+        if let navVC = self.navigationController {
+            navVC.presentViewController(alertVC, animated: true, completion: nil)
+        }
         
     }
 }

@@ -34,9 +34,23 @@ class MainTableViewController: UIViewController {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }()
     
+    func loadData() {
+        
+        DataManager.sharedInstance().loadData() { success in
+            
+            if !success {
+                print("Load data failed")
+                
+                self.displayQuickAlert("ERROR!", message: "An error occurred when trying to connect to Vimeo. You will only be able to browse local data. Please restart your app to retry for the latest content")
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        loadData()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -63,6 +77,10 @@ class MainTableViewController: UIViewController {
         }
     }
     
+    @IBAction func refreshData(sender: UIBarButtonItem) {
+        
+        self.loadData()
+    }
 }
 
 extension MainTableViewController: UITableViewDelegate {

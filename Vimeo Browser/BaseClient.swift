@@ -44,7 +44,12 @@ class BaseClient: NSObject {
             }
         }
         
+        self.setActivityIndicatorState(true)
+        
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            self.setActivityIndicatorState(false)
+            
             self.handleResponse(request, data: data, response: response, error: error, completionHandler: completionHandler)
         }
         
@@ -71,7 +76,12 @@ class BaseClient: NSObject {
             print("error sending params as JSON, params: \(parameters)")
         }
         
+        self.setActivityIndicatorState(true)
+        
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            self.setActivityIndicatorState(false)
+            
             self.handleResponse(request, data: data, response: response, error: error, completionHandler: completionHandler)
         }
         
@@ -83,7 +93,6 @@ class BaseClient: NSObject {
     // Response handler, parses JSON response, checks status code, and calls the completion handler
     private func handleResponse(request:NSURLRequest, data:NSData?, response:NSURLResponse?, error:NSError?, completionHandler:CompletionHandlerType) -> Void {
         
-        print(response)
         guard (error == nil) else {
             completionHandler(Result.Failure(error!))
             return
@@ -95,7 +104,7 @@ class BaseClient: NSObject {
                 
                 switch response.statusCode {
                 case 401, 403:
-                    errorString = "Your login details are incorrect, Please try again"
+                    errorString = "Failed to connect to remote API, Possibly API details are not set"
                     break;
                 default:
                     errorString = "Your request returned an invalid response! Status code: \(response.statusCode)!"
@@ -131,7 +140,11 @@ class BaseClient: NSObject {
             return
         }
         
+        self.setActivityIndicatorState(true)
+        
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            self.setActivityIndicatorState(false)
             
             guard let data = data where error == nil else {
                 completionHandler(success: false,image: nil, errorDescription: error?.localizedDescription)
@@ -186,5 +199,12 @@ class BaseClient: NSObject {
     
     struct Caches {
         static let imageCache = ImageCache()
+    }
+    
+    // MARK: Activity Indicator
+    
+    func setActivityIndicatorState(active:Bool) {
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = active
     }
 }

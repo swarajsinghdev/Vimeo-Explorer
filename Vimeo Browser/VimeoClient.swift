@@ -40,10 +40,10 @@ class VimeoClient: BaseClient {
         return headers
     }()
     
-    func authenticate(completionHandler: (success:Bool) -> Void) {
+    func authenticate(completionHandler: (success:Bool, error:NSError?) -> Void) {
         
         if authenticated {
-            completionHandler(success: true)
+            completionHandler(success: true, error: nil)
         }
         
         let params = [
@@ -56,21 +56,21 @@ class VimeoClient: BaseClient {
             case .Failure(let error):
                 
                 print("auth failed with error: \(error)")
-                completionHandler(success: false)
+                completionHandler(success: false, error: error)
             case.Success(let res):
                 
                 //print("Success: \(res)")
                 
                 guard let access_token = res![Keys.VimeoAccessToken] as? String else {
                     print("No access token was found when authenticating")
-                    completionHandler(success: false)
+                    completionHandler(success: false, error: nil)
                     return
                 }
                 
                 self.authenticated = true
                 self.accessToken = access_token
                 
-                completionHandler(success: true)
+                completionHandler(success: true, error: nil)
             }
         }
         
@@ -90,6 +90,8 @@ class VimeoClient: BaseClient {
             case .Failure(let error):
                 
                 print("auth failed with error: \(error)")
+                completionHandler(result)
+                
             case .Success(let res):
                 
                 guard let data = res!["data"] as? [[String:AnyObject]] else {

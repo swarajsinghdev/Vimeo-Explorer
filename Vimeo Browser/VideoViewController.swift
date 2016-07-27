@@ -26,7 +26,6 @@ class VideoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        addComponents()
         setupWebView()
         setupConstraints()
         
@@ -102,25 +101,6 @@ class VideoViewController: UIViewController {
         webView.loadHTMLString(html, baseURL: nil)
     }
     
-    private func addComponents() {
-    
-        /**
-        titleLabel = UILabel()
-        titleLabel.text = video.name.uppercaseString
-        titleLabel.numberOfLines = 0
-        titleLabel.font = UIFont(name: "Helvetica Neue", size: 14.0)
-        view.addSubview(titleLabel)
-        
-        descriptionLabel = UILabel()
-        descriptionLabel.text = "\(video.videoDescription!)".stringByReplacingOccurrencesOfString("\n", withString: " ")
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.lineBreakMode = .ByWordWrapping
-        descriptionLabel.font = UIFont(name: "Helvetica Neue", size: 12.0)
-        descriptionLabel.sizeToFit()
-        view.addSubview(descriptionLabel)
-        */
-    }
-    
     private func setupConstraints() {
         
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -129,19 +109,5 @@ class VideoViewController: UIViewController {
         NSLayoutConstraint(item: webView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: 0).active = true
         NSLayoutConstraint(item: webView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: 0).active = true
         NSLayoutConstraint(item: webView, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 9.0 / 16.0, constant: 0).active = true
-        /**
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint(item: titleLabel, attribute: .Top, relatedBy: .Equal, toItem: webView, attribute: .Bottom, multiplier: 1.0, constant: 8).active = true
-        NSLayoutConstraint(item: titleLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: 8).active = true
-        NSLayoutConstraint(item: titleLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: 8).active = true
-        NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 20).active = true
-        
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint(item: descriptionLabel, attribute: .Top, relatedBy: .Equal, toItem: titleLabel, attribute: .Bottom, multiplier: 1.0, constant: 4).active = true
-        NSLayoutConstraint(item: descriptionLabel, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1.0, constant: 8).active = true
-        NSLayoutConstraint(item: descriptionLabel, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1.0, constant: 8).active = true
-        */
     }
 }
