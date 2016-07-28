@@ -68,7 +68,9 @@ class Video: NSManagedObject {
         }
         
         if let user = dictionary["user"] as? [String:AnyObject] {
-            username = user["name"] as! String
+            if let userName = user["name"] as? String {
+                username = userName
+            }
         }
         
         if let dateString = dictionary["created_time"] as? String {

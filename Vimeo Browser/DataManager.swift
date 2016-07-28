@@ -88,13 +88,14 @@ class DataManager {
     func loadVideosForCategories(completionHandlder: (success:Bool) -> Void) {
         
         let fetchRequest = NSFetchRequest(entityName: "Category")
-        fetchRequest.fetchLimit = 1 // TODO: Remove this, stops me hitting limits too quickly while dev.
+        //fetchRequest.fetchLimit = 1 // TODO: Remove this, stops me hitting limits too quickly while dev.
         
         do {
-            
+    
             let categories = try self.sharedContext.executeFetchRequest(fetchRequest) as! [Category]
             let categoryCount = categories.count
             var counter = 0
+            var success = true
             
             for category in categories {
                 
@@ -109,7 +110,7 @@ class DataManager {
                         guard let videos = res as? [[String:AnyObject]] else {
                             
                             print("load videos for category error: No videos found)")
-                            completionHandlder(success: false)
+                            success = false
                             return
                         }
                         
@@ -132,27 +133,27 @@ class DataManager {
                             
                             do {
                                 try self.sharedContext.save()
-                                completionHandlder(success: true)
                             } catch let error {
                                 
                                 print("load videos for category error: \(error))")
-                                completionHandlder(success: false)
+                                success = false
                             }
                         }
                     case .Failure(let error):
                         
                         print("load videos for category error: \(error))")
-                        completionHandlder(success: false)
+                        success = false
                     }
                     
                     if counter == categoryCount {
-                        completionHandlder(success: true)
+                        completionHandlder(success: success)
                     }
                 }
             }
             
         } catch let error {
             print("loading videos by category error: \(error)")
+            completionHandlder(success: false)
         }
     }
     

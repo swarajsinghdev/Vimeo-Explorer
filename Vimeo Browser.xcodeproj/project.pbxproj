@@ -24,7 +24,6 @@
 		F38C22201D4180D600CECBD7 /* VideoBodyView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F38C221F1D4180D600CECBD7 /* VideoBodyView.xib */; };
 		F38C22221D4182F300CECBD7 /* VideoBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38C22211D4182F300CECBD7 /* VideoBodyView.swift */; };
 		F38C22241D41872F00CECBD7 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38C22231D41872F00CECBD7 /* Date+Extension.swift */; };
-		F38C22281D418F0400CECBD7 /* TODO.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F38C22271D418F0400CECBD7 /* TODO.rtf */; };
 		F39DE7051D3EBB23007AF6AA /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39DE7041D3EBB23007AF6AA /* VideoViewController.swift */; };
 		F3A28E7F1D29241900FE0394 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A28E7E1D29241900FE0394 /* Video.swift */; };
 		F3A28E811D2959AF00FE0394 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A28E801D2959AF00FE0394 /* DataManager.swift */; };
@@ -66,7 +65,6 @@
 		F38C221F1D4180D600CECBD7 /* VideoBodyView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoBodyView.xib; sourceTree = "<group>"; };
 		F38C22211D4182F300CECBD7 /* VideoBodyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBodyView.swift; sourceTree = "<group>"; };
 		F38C22231D41872F00CECBD7 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		F38C22271D418F0400CECBD7 /* TODO.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = TODO.rtf; sourceTree = "<group>"; };
 		F39DE7041D3EBB23007AF6AA /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		F3A28E7E1D29241900FE0394 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		F3A28E801D2959AF00FE0394 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 				F39DE7031D3EBAF5007AF6AA /* View */,
 				F31FC3A01D47910800052432 /* Extensions */,
 				F352D8671D25903B00956279 /* Supporting Files */,
-				F38C22271D418F0400CECBD7 /* TODO.rtf */,
 			);
 			path = "Vimeo Browser";
 			sourceTree = "<group>";
@@ -300,7 +297,6 @@
 			files = (
 				F352D8501D258FFC00956279 /* LaunchScreen.storyboard in Resources */,
 				F38C22201D4180D600CECBD7 /* VideoBodyView.xib in Resources */,
-				F38C22281D418F0400CECBD7 /* TODO.rtf in Resources */,
 				F3ABC8221D32CE1100FD2445 /* VideoCell.xib in Resources */,
 				F352D84D1D258FFC00956279 /* Assets.xcassets in Resources */,
 				F352D8481D258FFC00956279 /* Main.storyboard in Resources */,
