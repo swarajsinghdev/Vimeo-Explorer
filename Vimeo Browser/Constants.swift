@@ -11,6 +11,7 @@ import Foundation
 extension BaseClient {
     
     struct VimeoAPI {
+        
         static let ClientIdentifier = ""
         static let ClientSecrets = ""
         static let AuthorizeUrl = "https://api.vimeo.com/oauth/authorize"
@@ -21,6 +22,7 @@ extension BaseClient {
     }
     
     struct Constants {
+        
         static let CategoryImageWidth = 960
         static let CategoryImageHeight = 540
         static let videoCellIdentifier = "VideoCell"
@@ -43,14 +45,15 @@ extension BaseClient {
         static let PicturesHeight = "height"
         static let PicturesLink = "link"
         static let PicturesLinkWithPlayIcon = "link_with_play_button"
-        
         static let SortTypeDate = "date"
         
         struct Category {
+            
             static let TopLevel = "top_level"
         }
         
         struct Video {
+            
             static let Description = "description"
             static let Duration = "duration"
             static let Embed = "embed"
@@ -59,6 +62,7 @@ extension BaseClient {
     }
     
     struct Methods {
+        
         static let CategoriesMethod = "categories"
     }
 }

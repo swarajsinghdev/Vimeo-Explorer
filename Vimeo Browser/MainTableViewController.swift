@@ -12,6 +12,7 @@ import CoreData
 class MainTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    var refreshControl: UIRefreshControl!
     
     var selectedVideo:Video?
     
@@ -43,6 +44,8 @@ class MainTableViewController: UIViewController {
                 
                 self.displayQuickAlert("ERROR!", message: "An error occurred when trying to connect to Vimeo. You will only be able to browse local data. Please restart your app to retry for the latest content")
             }
+            
+            self.refreshControl.endRefreshing()
         }
     }
     
@@ -50,11 +53,17 @@ class MainTableViewController: UIViewController {
         
         super.viewDidLoad()
         
-        loadData()
-        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 100
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(self.loadData), forControlEvents: [.ValueChanged])
+        refreshControl.attributedTitle = NSAttributedString(string: "Fetching the latest content")
+        
+        tableView.addSubview(refreshControl)
+        
+        loadData()
         
         tableView.registerNib(UINib(nibName: "VideoCell", bundle: nil), forCellReuseIdentifier: VimeoClient.Constants.videoCellIdentifier)
         

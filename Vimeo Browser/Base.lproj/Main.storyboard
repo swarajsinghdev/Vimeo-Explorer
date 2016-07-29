@@ -98,13 +98,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="CQs-ak-xTh">
-                        <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="GXT-w6-Ymr">
+                        <barButtonItem key="rightBarButtonItem" image="Like" id="GXT-w6-Ymr">
                             <connections>
                                 <action selector="bookmarkVideo:" destination="9JK-VY-EVP" id="1aO-lc-tPt"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="favouriteVideoButton" destination="GXT-w6-Ymr" id="KMU-AW-7KH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8ml-0r-duo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -169,6 +172,9 @@
             <point key="canvasLocation" x="1028" y="899"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Like" width="32" height="32"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="h34-Pi-u5S"/>
     </inferredMetricsTieBreakers>

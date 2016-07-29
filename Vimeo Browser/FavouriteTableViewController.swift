@@ -73,10 +73,23 @@ extension FavouriteTableViewController: UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.performSegueWithIdentifier(VimeoClient.Constants.ShowFavouriteVideoSegueIdentifier, sender: self)
     }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        
+        return true
+    }
 }
 
 extension FavouriteTableViewController: UITableViewDataSource {
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if editingStyle == .Delete {
+            
+            let video = fetchedResultsController.objectAtIndexPath(indexPath) as! Video
+            video.isFavourite = NSNumber(bool: false)
+        }
+    }
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }

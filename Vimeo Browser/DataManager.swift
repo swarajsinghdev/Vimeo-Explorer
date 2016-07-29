@@ -88,7 +88,7 @@ class DataManager {
     func loadVideosForCategories(completionHandlder: (success:Bool) -> Void) {
         
         let fetchRequest = NSFetchRequest(entityName: "Category")
-        //fetchRequest.fetchLimit = 1 // TODO: Remove this, stops me hitting limits too quickly while dev.
+        // fetchRequest.fetchLimit = 1 // TODO: Remove this, stops me hitting limits too quickly while dev.
         
         do {
     

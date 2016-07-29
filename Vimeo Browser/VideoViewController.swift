@@ -14,6 +14,7 @@ class VideoViewController: UIViewController {
     
     var video:Video!
     
+    @IBOutlet weak var favouriteVideoButton: UIBarButtonItem!
     // MARK: UI Components
     var webView:WKWebView!
     
@@ -44,33 +45,41 @@ class VideoViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
+        
+        if video.isFavourite.boolValue {
+            setFavourite()
+        }
     }
     
     // MARK: Actions
     @IBAction func bookmarkVideo(sender: UIBarButtonItem) {
-    
-        var title = "Success"
-        var message = "Successfully updated bookmark"
         
         if video.isFavourite.boolValue {
-            
-            message = "Successfully removed bookmark"
-            video.isFavourite = NSNumber(bool: false)
+            unsetFavourite()
         } else {
-            
-            message = "Successfully bookmarked video, you can see this in the bookmarked tab."
-            video.isFavourite = NSNumber(bool: true)
+            setFavourite()
         }
         
         do {
             try self.sharedContext.save()
         } catch let error {
             title = "An error occurred"
-            message = "Encountered an error when saving bookmark status. Please try again."
             print("*** ERROR Occurred: VideoViewController::bookmarkVideo: \(error)")
         }
-        
-        self.displayQuickAlert(title, message: message)
+    }
+    
+    private func setFavourite() {
+    
+        favouriteVideoButton.image = UIImage(named: "Like-Filled")
+        favouriteVideoButton.tintColor = UIColor.redColor()
+        video.isFavourite = NSNumber(bool: true)
+    }
+    
+    private func unsetFavourite() {
+    
+        favouriteVideoButton.image = UIImage(named: "Like")
+        favouriteVideoButton.tintColor = nil
+        video.isFavourite = NSNumber(bool: false)
     }
     
     // MARK: private functions
