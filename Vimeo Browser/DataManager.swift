@@ -11,188 +11,129 @@ import CoreData
 
 class DataManager {
     
-    // MARK: Convenience Properties
-    lazy var sharedContext: NSManagedObjectContext = {
-        return CoreDataStackManager.sharedInstance().managedObjectContext
-    }()
+    // MARK: - Convenience Properties
     
-    class func sharedInstance() -> DataManager {
-        struct Singleton {
-            static var sharedInstance = DataManager()
-        }
-        
-        return Singleton.sharedInstance
-    }
+    let sharedContext = CoreDataStackManager.shared.managedObjectContext
     
-    func loadData(completionHanlder: (success:Bool) -> Void) {
-        
-        VimeoClient.sharedInstance().authenticate() { success in
-            self.loadCategoryData() { success in
-                self.loadVideosForCategories() { done in
-                    completionHanlder(success: done)
-                }
+    // MARK: - Singleton
+    
+    static let shared = DataManager()
+    
+    private init() {} // Prevent external instantiation
+    
+    // MARK: - Data Loading
+    
+    func loadData(completionHandler: @escaping (Bool) -> Void) {
+        VimeoClient.sharedInstance().authenticate { success, error in
+            guard success else {
+                print("Authentication failed with error: \(error?.localizedDescription ?? "Unknown error")")
+                completionHandler(false)
+                return
             }
+            
+            self.loadCategoryData(completionHandler: completionHandler)
         }
     }
     
-    func loadCategoryData(completionHanlder: (success:Bool) -> Void) {
-        
-        let fetchRequest = NSFetchRequest(entityName: "Category")
+    func loadCategoryData(completionHandler: @escaping (Bool) -> Void) {
+        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
         
         do {
-            let result = try self.sharedContext.executeFetchRequest(fetchRequest)
+            let categories = try sharedContext.fetch(fetchRequest)
+            print("Number of categories: \(categories.count)")
             
-            print("Number of categories: \(result.count)")
-            
-            if result.count == 0 {
-                
-                VimeoClient.sharedInstance().getCategories() { result in
-                    
+            if categories.isEmpty {
+                VimeoClient.sharedInstance().getCategories { result in
                     switch result {
-                    case .Success(let res):
-                        
-                        if let categories = res as? [[String:AnyObject]] {
-                            
-                            dispatch_async(dispatch_get_main_queue()) {
-                                
-                                let _ = categories.map() { (dictionary:[String:AnyObject]) -> Category in
-                                    let category = Category(dictionary: dictionary, context: self.sharedContext)
-                                    return category
-                                }
-                                
-                                self.loadVideosForCategories() { success in
-                                    completionHanlder(success: true)
-                                }
-                            }
+                    case .success(let res):
+                        guard let categoriesData = res as? [[String:Any]] else {
+                            print("Error: No categories data found")
+                            completionHandler(false)
+                            return
                         }
                         
-                    case .Failure(let error):
-                        print(error)
-                        completionHanlder(success: false)
+                        DispatchQueue.main.async {
+                            self.saveCategories(from: categoriesData, completionHandler: completionHandler)
+                        }
+                        
+                    case .failure(let error):
+                        print("Failed to fetch categories: \(error.localizedDescription)")
+                        completionHandler(false)
                     }
                 }
-                
             } else {
-                
-                self.loadVideosForCategories() { success in
-                    completionHanlder(success: success)
-                }
+                self.loadVideosForCategories(completionHandler: completionHandler)
             }
-            
-        } catch let error {
-            print(error)
-            completionHanlder(success: false)
+        } catch {
+            print("Error fetching categories: \(error)")
+            completionHandler(false)
         }
     }
     
-    func loadVideosForCategories(completionHandlder: (success:Bool) -> Void) {
+    func saveCategories(from categoriesData: [[String:Any]], completionHandler: @escaping (Bool) -> Void) {
+        categoriesData.forEach { categoryData in
+            guard let categoryDataAsObject = categoryData as? [String: AnyObject] else {
+                // Handle the case where conversion fails
+                return
+            }
+            _ = Category(dictionary: categoryDataAsObject, context: sharedContext)
+        }
         
-        let fetchRequest = NSFetchRequest(entityName: "Category")
-        // fetchRequest.fetchLimit = 1 // TODO: Remove this, stops me hitting limits too quickly while dev.
+        self.loadVideosForCategories(completionHandler: completionHandler)
+    }
+
+    
+    func loadVideosForCategories(completionHandler: @escaping (Bool) -> Void) {
+        let fetchRequest: NSFetchRequest<Category> = Category.fetchRequest()
         
         do {
-    
-            let categories = try self.sharedContext.executeFetchRequest(fetchRequest) as! [Category]
-            let categoryCount = categories.count
-            var counter = 0
+            let categories = try sharedContext.fetch(fetchRequest)
             var success = true
             
             for category in categories {
-                
-                VimeoClient.sharedInstance().getVideosForCategory(category) { result in
-                    
-                    counter += 1
-                    
+                VimeoClient.sharedInstance().getVideosForCategory(category: category) { result in
                     switch result {
-                        
-                    case .Success(let res):
-                        
-                        guard let videos = res as? [[String:AnyObject]] else {
-                            
-                            print("load videos for category error: No videos found)")
+                    case .success(let res):
+                        guard let videosData = res as? [[String:Any]] else {
+                            print("Error: No videos data found")
                             success = false
                             return
                         }
                         
-                        dispatch_async(dispatch_get_main_queue()) {
-                            
-                            let _ = videos.map() { (dictionary:[String:AnyObject]) -> Video in
-                                
-                                if let resourceKey = dictionary[VimeoClient.Keys.ResourceKey] as? String {
-                                    
-                                    if let video = self.findVideoByResourceKey(resourceKey) {
-                                        
-                                        return video
-                                    }
-                                }
-                                
-                                let video = Video(dictionary: dictionary, context: self.sharedContext)
-                                video.category = category
-                                return video
-                            }
-                            
-                            do {
-                                try self.sharedContext.save()
-                            } catch let error {
-                                
-                                print("load videos for category error: \(error))")
-                                success = false
-                            }
+                        DispatchQueue.main.async {
+                            self.saveVideos(from: videosData, for: category, completionHandler: completionHandler)
                         }
-                    case .Failure(let error):
                         
-                        print("load videos for category error: \(error))")
+                    case .failure(let error):
+                        print("Failed to fetch videos for category \(category.name ?? ""): \(error.localizedDescription)")
                         success = false
                     }
                     
-                    if counter == categoryCount {
-                        completionHandlder(success: success)
+                    if !success {
+                        completionHandler(false)
+                        return
                     }
                 }
             }
             
-        } catch let error {
-            print("loading videos by category error: \(error)")
-            completionHandlder(success: false)
+            completionHandler(success)
+        } catch {
+            print("Error fetching categories: \(error)")
+            completionHandler(false)
         }
     }
     
-    
-    func findVideoByResourceKey(resourceKey: String) -> Video? {
-        
-        let fetchRequest = NSFetchRequest(entityName: "Video")
-        fetchRequest.predicate = NSPredicate(format: "resourceKey = %@", resourceKey)
-        
-        do {
-            let results = try self.sharedContext.executeFetchRequest(fetchRequest)
-            
-            if results.count == 1 {
-                return results.first! as? Video
-            } else {
-                return nil
-            }
-        } catch let error {
-            print("error in find video by id: \(error)")
-            return nil
+    func saveVideos(from videosData: [[String:Any]], for category: Category, completionHandler: @escaping (Bool) -> Void) {
+        videosData.forEach { videoData in
+            _ = Video(dictionary: videoData, context: sharedContext)
         }
-    }
-    
-    func findCategoryByResourceKey(resourceKey:String) -> Category? {
-        
-        let fetchRequest = NSFetchRequest(entityName: "Category")
-        fetchRequest.predicate = NSPredicate(format: "resourceKey = %@", resourceKey)
         
         do {
-            let results = try self.sharedContext.executeFetchRequest(fetchRequest)
-            
-            if results.count == 1 {
-                return results.first! as? Category
-            } else {
-                return nil
-            }
-        } catch let error {
-            print("error in find video by id: \(error)")
-            return nil
+            try sharedContext.save()
+            completionHandler(true)
+        } catch {
+            print("Error saving context: \(error)")
+            completionHandler(false)
         }
     }
 }

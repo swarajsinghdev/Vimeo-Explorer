@@ -12,8 +12,8 @@ extension BaseClient {
     
     struct VimeoAPI {
         
-        static let ClientIdentifier = ""
-        static let ClientSecrets = ""
+        static let ClientIdentifier = "b542e808933c36824880c2aed98cdf4345e3c697"
+        static let ClientSecrets = "65VahAHEoIYnDF2aCKVpatEdzhTVZcMGU68ju+Pbnhw2CaXi4JPIgZ+yO235jODrkdJrQuSwu4N2UXvFuQ8VBSLrgMSpJtI5UnDV+3nMir6ddMFQFpiggZCk6AAFks2s"
         static let AuthorizeUrl = "https://api.vimeo.com/oauth/authorize"
         static let BaseUrl = "https://api.vimeo.com/"
         static let AccessTokenUrl = "https://api.vimeo.com/oauth/access_token"

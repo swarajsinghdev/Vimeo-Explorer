@@ -10,16 +10,16 @@ import UIKit
 
 extension UIViewController {
     
-    func displayQuickAlert(title:String, message: String) {
+    func displayQuickAlert(title: String, message: String) {
         
-        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        alertVC.addAction(UIAlertAction(title: "Ok", style: .Default, handler: { (action) in
-            self.dismissViewControllerAnimated(true, completion: nil)
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (_) in
+            alertVC.dismiss(animated: true, completion: nil)
         }))
-        
-        if let navVC = self.navigationController {
-            navVC.presentViewController(alertVC, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alertVC, animated: true, completion: nil)
         }
-        
+       
     }
 }
+

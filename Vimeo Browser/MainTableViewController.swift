@@ -8,18 +8,20 @@
 
 import UIKit
 import CoreData
+import UIKit
+import CoreData
 
 class MainTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var refreshControl: UIRefreshControl!
     
-    var selectedVideo:Video?
+    var selectedVideo: Video?
     
     // MARK: Core Data Helpers
-    lazy var fetchedResultsController: NSFetchedResultsController = {
+    lazy var fetchedResultsController: NSFetchedResultsController<Video> = {
         
-        let fetch = NSFetchRequest(entityName: "Video")
+        let fetch = NSFetchRequest<Video>(entityName: "Video")
         let sort = NSSortDescriptor(key: "createdTime", ascending: false)
         fetch.sortDescriptors = [sort]
         fetch.fetchBatchSize = 20
@@ -32,20 +34,22 @@ class MainTableViewController: UIViewController {
     
     // MARK: Convenience Properties
     lazy var sharedContext: NSManagedObjectContext = {
-        return CoreDataStackManager.sharedInstance().managedObjectContext
+        return CoreDataStackManager.shared.managedObjectContext
     }()
     
-    func loadData() {
+    @objc func loadData() {
         
-        DataManager.sharedInstance().loadData() { success in
+        DataManager.shared.loadData { success in
             
             if !success {
                 print("Load data failed")
                 
-                self.displayQuickAlert("ERROR!", message: "An error occurred when trying to connect to Vimeo. You will only be able to browse local data. Please restart your app to retry for the latest content")
+                self.displayQuickAlert(title: "ERROR!", message: "An error occurred when trying to connect to Vimeo. You will only be able to browse local data. Please restart your app to retry for the latest content")
             }
-            
-            self.refreshControl.endRefreshing()
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+            }
+           
         }
     }
     
@@ -58,14 +62,14 @@ class MainTableViewController: UIViewController {
         tableView.rowHeight = 100
         
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(self.loadData), forControlEvents: [.ValueChanged])
+        refreshControl.addTarget(self, action: #selector(self.loadData), for: .valueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "Fetching the latest content")
         
         tableView.addSubview(refreshControl)
         
         loadData()
         
-        tableView.registerNib(UINib(nibName: "VideoCell", bundle: nil), forCellReuseIdentifier: VimeoClient.Constants.videoCellIdentifier)
+        tableView.register(UINib(nibName: "VideoCell", bundle: nil), forCellReuseIdentifier: VimeoClient.Constants.videoCellIdentifier)
         
         do {
             try self.fetchedResultsController.performFetch()
@@ -76,17 +80,17 @@ class MainTableViewController: UIViewController {
         
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == VimeoClient.Constants.ShowVideoSegueIdentifier {
             
-            if let vc = segue.destinationViewController as? VideoViewController, let video = selectedVideo {
+            if let vc = segue.destination as? VideoViewController, let video = selectedVideo {
                 vc.video = video
             }
         }
     }
     
-    @IBAction func refreshData(sender: UIBarButtonItem) {
+    @IBAction func refreshData(_ sender: UIBarButtonItem) {
         
         self.loadData()
     }
@@ -94,32 +98,32 @@ class MainTableViewController: UIViewController {
 
 extension MainTableViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        selectedVideo = (fetchedResultsController.objectAtIndexPath(indexPath) as! Video)
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        self.performSegueWithIdentifier(VimeoClient.Constants.ShowVideoSegueIdentifier, sender: self)
+        selectedVideo = fetchedResultsController.object(at: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: VimeoClient.Constants.ShowVideoSegueIdentifier, sender: self)
     }
 }
 
 extension MainTableViewController: UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let sectionInfo = fetchedResultsController.sections![section]
         return sectionInfo.numberOfObjects
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let video = fetchedResultsController.objectAtIndexPath(indexPath) as! Video
+        let video = fetchedResultsController.object(at: indexPath)
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(VimeoClient.Constants.videoCellIdentifier) as! VideoCell
-        cell.setVideoContent(video)
+        let cell = tableView.dequeueReusableCell(withIdentifier: VimeoClient.Constants.videoCellIdentifier) as! VideoCell
+        cell.setVideoContent(video: video)
         
         return cell
     }
@@ -127,21 +131,21 @@ extension MainTableViewController: UITableViewDataSource {
 
 extension MainTableViewController: NSFetchedResultsControllerDelegate {
     
-    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
     
-    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type {
-        case .Delete:
-            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
-        case .Insert:
-            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
         default:
             break
         }

@@ -25,7 +25,7 @@ class VideoBodyView: UIView {
     func setVideoContent(video: Video) {
         
         titleLabel.text = video.name
-        playsLabel.text = "\(video.numberOfPlays) plays - \(video.createdTime.timeAgoSinceDate(true))"
+        playsLabel.text = "\(video.numberOfPlays) plays - \(video.createdTime.timeAgoSinceDate(numericDates: false))"
         descriptionLabel.text = video.videoDescription
     }
 }

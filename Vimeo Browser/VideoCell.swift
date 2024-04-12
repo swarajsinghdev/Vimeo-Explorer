@@ -15,7 +15,7 @@ class VideoCell: UITableViewCell {
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var metaLabel: UILabel!
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }
     
@@ -26,17 +26,19 @@ class VideoCell: UITableViewCell {
     func setVideoContent(video:Video) {
         
         titleLabel.text = video.name
-        categoryLabel.text = video.category!.name
+        categoryLabel.text = video.category?.name ?? "l"
         metaLabel.text = "\(video.numberOfPlays) plays"
         
         self.featuredImage.image = UIImage(named: "placeholder")
         
-        VimeoClient.sharedInstance().getImage(video.imageUrl) { (success, image, errorDescription) in
+        VimeoClient.sharedInstance().getImage(urlString: video.imageUrl) { (success, image, errorDescription) in
     
             if let image = image {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.featuredImage.image = image
                 }
+                    
+                
             }
         }
         

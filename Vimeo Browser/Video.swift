@@ -9,6 +9,9 @@
 import Foundation
 import CoreData
 
+import Foundation
+import CoreData
+
 class Video: NSManagedObject {
     
     @NSManaged var resourceKey: String
@@ -20,92 +23,72 @@ class Video: NSManagedObject {
     @NSManaged var duration: NSNumber
     @NSManaged var width: NSNumber
     @NSManaged var height: NSNumber
-    @NSManaged var createdTime: NSDate
+    @NSManaged var createdTime: Date
     @NSManaged var embedCode: String
     @NSManaged var numberOfPlays: NSNumber
     @NSManaged var username: String
     @NSManaged var imageUrl: String
     @NSManaged var imageWithPlayIconUrl: String
-    @NSManaged var isFavourite:NSNumber
+    @NSManaged var isFavourite: NSNumber
     @NSManaged var category: Category?
-    
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
     }
-    
-    init(dictionary: [String:AnyObject], context: NSManagedObjectContext) {
-        
-        let entity = NSEntityDescription.entityForName("Video", inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
-        
-        let keys = VimeoClient.Keys.self
-        
-        resourceKey = dictionary[keys.ResourceKey] as! String
-        name = dictionary[keys.Name] as! String
-        videoDescription = dictionary[keys.Video.Description] as? String
-        uri = dictionary[keys.Uri] as! String
-        link = (dictionary[keys.Link] as! String).stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
-        if let dur = dictionary[keys.Video.Duration] as? NSNumber {
-            duration = dur
-        }
+
+    init(dictionary: [String:Any], context: NSManagedObjectContext) {
+        let entity = NSEntityDescription.entity(forEntityName: "Video", in: context)!
+        super.init(entity: entity, insertInto: context)
+
+        resourceKey = dictionary[VimeoClient.Keys.ResourceKey] as! String
+        name = dictionary[VimeoClient.Keys.Name] as! String
+        videoDescription = dictionary[VimeoClient.Keys.Video.Description] as? String
+        uri = dictionary[VimeoClient.Keys.Uri] as! String
+        link = (dictionary[VimeoClient.Keys.Link] as! String).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        duration = dictionary[VimeoClient.Keys.Video.Duration] as! NSNumber
         width = dictionary["width"] as! NSNumber
         height = dictionary["height"] as! NSNumber
         isFavourite = false
         
-        let url = NSURL(string: link)!
-        if let lastPath = url.lastPathComponent {
-            id = lastPath
+        let url = URL(string: link)!
+        id = url.lastPathComponent
+        
+        if let embed = dictionary[VimeoClient.Keys.Video.Embed] as? [String:Any] {
+            embedCode = embed[VimeoClient.Keys.Video.Html] as! String
         }
         
-        if let embed = dictionary[keys.Video.Embed] as? [String:AnyObject] {
-            embedCode = embed[keys.Video.Html] as! String
-        }
-        
-        if let stats = dictionary["stats"] as? [String:AnyObject] {
+        if let stats = dictionary["stats"] as? [String:Any] {
             if let plays = stats["plays"] as? NSNumber {
                 numberOfPlays = plays
             }
         }
         
-        if let user = dictionary["user"] as? [String:AnyObject] {
+        if let user = dictionary["user"] as? [String:Any] {
             if let userName = user["name"] as? String {
                 username = userName
             }
         }
         
         if let dateString = dictionary["created_time"] as? String {
-            
-            let dateFormatter = NSDateFormatter()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            dateFormatter.timeZone = NSTimeZone(name: "UTC")
-            if let date = dateFormatter.dateFromString(dateString) {
+            dateFormatter.timeZone = TimeZone(identifier: "UTC")
+            if let date = dateFormatter.date(from: dateString) {
                 createdTime = date
             }
         }
-    
-        // we dont need all the sizes here, we'll pick a default of 960x540
-        if let pictures = dictionary[keys.Pictures] as? [String:AnyObject] {
-            
-            if let sizes = pictures["sizes"] as? [[String:AnyObject]] {
+        
+        if let pictures = dictionary[VimeoClient.Keys.Pictures] as? [String:Any] {
+            if let sizes = pictures["sizes"] as? [[String:Any]] {
                 for picture in sizes {
-                    
-                    let width = picture[keys.PicturesWidth] as! Int
-                    
+                    let width = picture[VimeoClient.Keys.PicturesWidth] as! Int
                     if width == VimeoClient.Constants.CategoryImageWidth {
-                        imageUrl = picture[keys.PicturesLink] as! String
-                        imageWithPlayIconUrl = picture[keys.PicturesLinkWithPlayIcon] as! String
+                        imageUrl = picture[VimeoClient.Keys.PicturesLink] as! String
+                        imageWithPlayIconUrl = picture[VimeoClient.Keys.PicturesLinkWithPlayIcon] as! String
+                        break
                     }
                 }
             }
         }
-        
-        /**
-        do {
-            try context.save()
-        } catch let error {
-            print("V save error: \(error)")
-        }*/
-        
     }
-    
 }

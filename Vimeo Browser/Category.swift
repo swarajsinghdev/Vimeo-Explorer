@@ -9,26 +9,33 @@
 import Foundation
 import CoreData
 
+import Foundation
+import CoreData
+
 class Category: NSManagedObject {
     
-    @NSManaged var resourceKey:String
-    @NSManaged var name:String
-    @NSManaged var uri:String
-    @NSManaged var link:String
-    @NSManaged var topLevel:NSNumber
-    @NSManaged var imageUrl:String
-    @NSManaged var imageWithPlayIconUrl:String
-    @NSManaged var videos:[Video]?
+    @NSManaged var resourceKey: String
+    @NSManaged var name: String
+    @NSManaged var uri: String
+    @NSManaged var link: String
+    @NSManaged var topLevel: NSNumber
+    @NSManaged var imageUrl: String
+    @NSManaged var imageWithPlayIconUrl: String
+    @NSManaged var videos: [Video]?
     
     
-    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertInto: context)
+    }
+    
+    class func fetchRequest() -> NSFetchRequest<Category> {
+        return NSFetchRequest<Category>(entityName: "Category")
     }
     
     init(dictionary: [String:AnyObject], context: NSManagedObjectContext) {
         
-        let entity = NSEntityDescription.entityForName("Category", inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        let entity = NSEntityDescription.entity(forEntityName: "Category", in: context)!
+        super.init(entity: entity, insertInto: context)
         
         let keys = VimeoClient.Keys.self
         
@@ -59,7 +66,5 @@ class Category: NSManagedObject {
         } catch let error {
             print("Category save error: \(error)")
         }
-        
-        
     }
 }

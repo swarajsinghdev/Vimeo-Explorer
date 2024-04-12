@@ -11,72 +11,72 @@ import Foundation
 class VimeoClient: BaseClient {
     
     var authenticated = false
-    var accessToken:String?
+    var accessToken: String?
     
     override class func sharedInstance() -> VimeoClient {
         struct Singleton {
-            static var sharedInstance = VimeoClient()
+            static let sharedInstance = VimeoClient()
         }
         
         return Singleton.sharedInstance
     }
     
-    // reference used for base64 encoding: http://stackoverflow.com/questions/29365145/how-to-encode-string-to-base64-in-swift
-    lazy private var getDefaultHeaders: [String:String] = {
-       
-        var baseString = "\(VimeoAPI.ClientIdentifier):\(VimeoAPI.ClientSecrets)".dataUsingEncoding(NSUTF8StringEncoding)!
+    // Reference used for base64 encoding: http://stackoverflow.com/questions/29365145/how-to-encode-string-to-base64-in-swift
+    lazy private var getDefaultHeaders: [String: String] = {
+        var baseString = "\(VimeoAPI.ClientIdentifier):\(VimeoAPI.ClientSecrets)".data(using: .utf8)!
         
-        let base64EncodedString = baseString.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        let base64EncodedString = baseString.base64EncodedString(options: [])
         
-        var headers = [String:String]()
+        var headers = [String: String]()
         headers["Content-Type"] = "application/json"
         
         if VimeoClient.sharedInstance().authenticated {
-            headers["Authorization"] = "bearer \(VimeoClient.sharedInstance().accessToken)"
+            if let accessToken = self.accessToken {
+                headers["Authorization"] = "Bearer \(accessToken)"
+            }
         } else {
-            headers["Authorization"] = "basic \(base64EncodedString)"
+            headers["Authorization"] = "Basic \(base64EncodedString)"
         }
         
         return headers
     }()
     
-    func authenticate(completionHandler: (success:Bool, error:NSError?) -> Void) {
+    func authenticate(completionHandler: @escaping (Bool, Error?) -> Void) {
         
         if authenticated {
-            completionHandler(success: true, error: nil)
+            completionHandler(true, nil)
+            return
         }
         
         let params = [
-            Keys.VimeoGrantType : VimeoAPI.VimeoTokenGrantType
+            Keys.VimeoGrantType: VimeoAPI.VimeoTokenGrantType
         ]
         
-        VimeoClient.sharedInstance().post(VimeoAPI.UnauthorizedAccessTokenUrl, parameters: params, headers: getDefaultHeaders) { result in
+        let task = VimeoClient.sharedInstance().post(urlString: VimeoAPI.UnauthorizedAccessTokenUrl, parameters: params, headers: getDefaultHeaders) { result in
             
             switch result {
-            case .Failure(let error):
+            case .failure(let error):
+                print("Authentication failed with error: \(error)")
+                completionHandler(false, error)
                 
-                print("auth failed with error: \(error)")
-                completionHandler(success: false, error: error)
-            case.Success(let res):
-                
-                //print("Success: \(res)")
-                
-                guard let access_token = res![Keys.VimeoAccessToken] as? String else {
+            case .success(let res):
+                guard let dict = res as? [String:Any],let accessToken = dict[Keys.VimeoAccessToken] as? String else {
                     print("No access token was found when authenticating")
-                    completionHandler(success: false, error: nil)
+                    completionHandler(false, nil)
                     return
                 }
                 
                 self.authenticated = true
-                self.accessToken = access_token
+                self.accessToken = accessToken
                 
-                completionHandler(success: true, error: nil)
+                completionHandler(true, nil)
             }
         }
         
+        task.resume()
     }
     
-    func getCategories(completionHandler: CompletionHandlerType) {
+    func getCategories(completionHandler: @escaping CompletionHandlerType<Any>) {
         
         let urlString = "\(VimeoAPI.BaseUrl)\(Methods.CategoriesMethod)"
         
@@ -84,28 +84,27 @@ class VimeoClient: BaseClient {
             "fields": "uri,name,link,resource_key,top_level,pictures"
         ]
         
-        VimeoClient.sharedInstance().fetch(urlString, parameters: params, headers: getDefaultHeaders) { result in
+        let task = VimeoClient.sharedInstance().fetch(urlString: urlString, parameters: params, headers: getDefaultHeaders) { result in
             
             switch result {
-            case .Failure(let error):
-                
-                print("auth failed with error: \(error)")
+            case .failure(let error):
+                print("Fetching categories failed with error: \(error)")
                 completionHandler(result)
                 
-            case .Success(let res):
-                
-                guard let data = res!["data"] as? [[String:AnyObject]] else {
-                    print("category data not found")
-                    completionHandler(.Failure(NSError(domain: "VimeoClient:fetch", code: 0, userInfo: [NSLocalizedDescriptionKey: "category data not found"])))
+            case .success(let res):
+                guard let dict = res as? [String:Any],let data = dict["data"] as? [[String: AnyObject]] else {
+                    print("Category data not found")
+                    completionHandler(.failure(NSError(domain: "VimeoClient:fetch", code: 0, userInfo: [NSLocalizedDescriptionKey: "Category data not found"])))
                     return
                 }
                 
-                completionHandler(.Success(data))
+                completionHandler(.success(data))
             }
         }
+        task.resume()
     }
     
-    func getVideosForCategory(category:Category, completionHandler: CompletionHandlerType) {
+    func getVideosForCategory(category: Category, completionHandler: @escaping CompletionHandlerType<Any>) {
         
         let urlString = "\(VimeoAPI.BaseUrl)\(category.uri)/videos"
         
@@ -117,23 +116,23 @@ class VimeoClient: BaseClient {
             "fields": "resource_key,uri,link,name,width,height,embed.html,created_time,description,duration,stats.plays,user.name,pictures"
         ]
         
-        VimeoClient.sharedInstance().fetch(urlString, parameters: params, headers: getDefaultHeaders) { result in
+        let task = VimeoClient.sharedInstance().fetch(urlString: urlString, parameters: params, headers: getDefaultHeaders) { result in
             
             switch result {
-            case .Failure(let error):
-                
-                print("Get videos for category failure: \(error)")
+            case .failure(let error):
+                print("Fetching videos for category \(category.name) failed with error: \(error)")
                 completionHandler(result)
-            case .Success(let res):
                 
-                guard let data = res!["data"] as? [[String:AnyObject]] else {
-                    completionHandler(.Failure(NSError(domain: "VimeoClient:getVideosForCategory", code: 0, userInfo: [NSLocalizedDescriptionKey: "no videos found in category \(category.name)"])))
+            case .success(let res):
+                guard let dict = res as? [String:Any], let data = dict["data"] as? [[String: AnyObject]] else {
+                    print("No videos found in category \(category.name)")
+                    completionHandler(.failure(NSError(domain: "VimeoClient:getVideosForCategory", code: 0, userInfo: [NSLocalizedDescriptionKey: "No videos found in category \(category.name)"])))
                     return
                 }
                 
-                completionHandler(.Success(data))
+                completionHandler(.success(data))
             }
         }
+        task.resume()
     }
-    
 }

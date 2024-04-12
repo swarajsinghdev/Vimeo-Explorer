@@ -8,49 +8,48 @@
 
 import UIKit
 
+import UIKit
+
 class BaseClient: NSObject {
     
-    typealias CompletionHandlerType = (Result) -> Void
+    typealias CompletionHandlerType<T> = (Result<T>) -> Void
     
-    enum Result {
-        case Success(AnyObject?)
-        case Failure(NSError)
+    enum Result<T> {
+        case success(T)
+        case failure(Error)
     }
     
-    var session: NSURLSession
+    var session: URLSession
     
     override init() {
-        session = NSURLSession.sharedSession()
+        session = URLSession.shared
         super.init()
     }
     
     class func sharedInstance() -> BaseClient {
         struct Singleton {
-            static var sharedInstance = BaseClient()
+            static let sharedInstance = BaseClient()
         }
-        
         return Singleton.sharedInstance
     }
     
     // HTTP GET request
-    func fetch(urlString: String, parameters: [String:AnyObject], headers: [String:String]?, completionHandler: CompletionHandlerType) -> NSURLSessionDataTask {
+    func fetch(urlString: String, parameters: [String: Any], headers: [String: String]?, completionHandler: @escaping CompletionHandlerType<Any>) -> URLSessionDataTask {
         
-        let url = NSURL(string: urlString + BaseClient.escapedParameters(parameters))
-        let request = NSMutableURLRequest(URL: url!)
+        let url = URL(string: urlString + BaseClient.escapedParameters(parameters: parameters))
+        var request = URLRequest(url: url!)
         
         if let headers = headers {
-            for (key,value) in headers {
+            for (key, value) in headers {
                 request.setValue(value, forHTTPHeaderField: key)
             }
         }
         
-        self.setActivityIndicatorState(true)
+        setActivityIndicatorState(active: true)
         
-        let task = session.dataTaskWithRequest(request) { (data, response, error) in
-            
-            self.setActivityIndicatorState(false)
-            
-            self.handleResponse(request, data: data, response: response, error: error, completionHandler: completionHandler)
+        let task = session.dataTask(with: request) { (data, response, error) in
+            self.setActivityIndicatorState(active: false)
+            self.handleResponse(request: request, data: data, response: response, error: error, completionHandler: completionHandler)
         }
         
         task.resume()
@@ -58,31 +57,29 @@ class BaseClient: NSObject {
         return task
     }
     
-    func post(urlString:String, parameters: [String:AnyObject], headers: [String:AnyObject]?, completionHandler: CompletionHandlerType) -> NSURLSessionTask {
+    func post(urlString: String, parameters: [String: Any], headers: [String: String]?, completionHandler: @escaping CompletionHandlerType<Any>) -> URLSessionTask {
         
-        let url = NSURL(string: urlString)
-        let request = NSMutableURLRequest(URL: url!)
-        request.HTTPMethod = "POST"
+        let url = URL(string: urlString)
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
         
         if let headers = headers {
-            for (key,value) in headers {
-                request.setValue(value as? String, forHTTPHeaderField: key)
+            for (key, value) in headers {
+                request.setValue(value, forHTTPHeaderField: key)
             }
         }
         
-        if let jsonData = try? NSJSONSerialization.dataWithJSONObject(parameters, options: .PrettyPrinted) {
-            request.HTTPBody = jsonData
+        if let jsonData = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) {
+            request.httpBody = jsonData
         } else {
-            print("error sending params as JSON, params: \(parameters)")
+            print("Error sending params as JSON, params: \(parameters)")
         }
         
-        self.setActivityIndicatorState(true)
+        setActivityIndicatorState(active: true)
         
-        let task = session.dataTaskWithRequest(request) { (data, response, error) in
-            
-            self.setActivityIndicatorState(false)
-            
-            self.handleResponse(request, data: data, response: response, error: error, completionHandler: completionHandler)
+        let task = session.dataTask(with: request) { (data, response, error) in
+            self.setActivityIndicatorState(active: false)
+            self.handleResponse(request: request, data: data, response: response, error: error, completionHandler: completionHandler)
         }
         
         task.resume()
@@ -90,109 +87,142 @@ class BaseClient: NSObject {
         return task
     }
     
-    // Response handler, parses JSON response, checks status code, and calls the completion handler
-    private func handleResponse(request:NSURLRequest, data:NSData?, response:NSURLResponse?, error:NSError?, completionHandler:CompletionHandlerType) -> Void {
-        
-        guard (error == nil) else {
-            completionHandler(Result.Failure(error!))
-            return
-        }
-        
-        guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
-            var errorString = ""
-            if let response = response as? NSHTTPURLResponse {
-                
-                switch response.statusCode {
-                case 401, 403:
-                    errorString = "Failed to connect to remote API, Possibly API details are not set"
-                    break;
-                default:
-                    errorString = "Your request returned an invalid response! Status code: \(response.statusCode)!"
-                    break;
-                }
-                
-            } else if let response = response {
-                errorString = "Your request returned an invalid response! Response: \(response)!"
-            } else {
-                errorString = "Your request returned an invalid response!"
-            }
-            
-            completionHandler(Result.Failure(NSError(domain: "BaseClient:fetch", code: 0, userInfo: [NSLocalizedDescriptionKey: errorString])))
-            return
-        }
-        
-        guard let data = data else {
-            completionHandler(Result.Failure(NSError(domain: "BaseClient:fetch", code: 1, userInfo: [NSLocalizedDescriptionKey: "No data returned from request"])))
-            return
-        }
-        
-        BaseClient.parseJSONWithCompletionHandler(data, completionHandler: completionHandler)
-        
+    private func httpResponseToDictionary(response: HTTPURLResponse) -> [String: Any] {
+        var dictionary: [String: Any] = [:]
+        dictionary["url"] = response.url?.absoluteString ?? ""
+        dictionary["statusCode"] = response.statusCode
+        dictionary["allHeaderFields"] = response.allHeaderFields
+        return dictionary
     }
     
-    func getImage(urlString:String, completionHandler:(success:Bool, image:UIImage?, errorDescription:String?) -> Void) -> Void {
+    // Function to log the request URL and HTTP body before API hit
+    private func logRequest(request: URLRequest) {
+        if let url = request.url {
+            print("Request URL: \(url)")
+        }
+        if let body = request.httpBody{
+            print("****** Request HTTP Body: ****** \n \(body.json)")
+            print("****** Request HTTP Body: KEY VALUE ****** \n \(body.dictionary!.keyValueString)")
+        }
+    }
+
+    // Function to log the HTTP response and data after API hit
+    private func logResponse<T>(response: URLResponse?, data: Data?, error: Error?, completionHandler: @escaping CompletionHandlerType<T>) {
+        // Log the HTTP response
+        if let httpResponse = response as? HTTPURLResponse {
+            let httpResponseDict = httpResponseToDictionary(response: httpResponse)
+            print("****** HTTP Response: ****** \n \(httpResponseDict.json)")
+        }
         
-        let url = NSURL(string: urlString)
-        let request = NSMutableURLRequest(URL: url!)
+        // Log the response data
+        if let responseData = data {
+            print("****** Response Data: ****** \(responseData.json)")
+        }
         
-        if let image = BaseClient.Caches.imageCache.imageWithIdentifier(urlString) {
-            completionHandler(success: true, image: image, errorDescription: nil)
+        // Check for errors and handle accordingly
+        guard error == nil else {
+            completionHandler(.failure(error!))
+            return
+        }
+    }
+
+    // Response handler, parses JSON response, checks status code, and calls the completion handler
+    private func handleResponse<T>(request: URLRequest, data: Data?, response: URLResponse?, error: Error?, completionHandler: @escaping CompletionHandlerType<T>) {
+        // Log the request URL and HTTP body before hitting the API
+        logRequest(request: request)
+        
+        // Handle the HTTP response
+        guard let httpResponse = response as? HTTPURLResponse else {
+            let errorString = "Your request returned an invalid response!"
+            completionHandler(.failure(NSError(domain: "BaseClient:fetch", code: 0, userInfo: [NSLocalizedDescriptionKey: errorString])))
             return
         }
         
-        self.setActivityIndicatorState(true)
+        // Check the status code of the HTTP response
+        guard (200...299).contains(httpResponse.statusCode) else {
+            var errorString = ""
+            switch httpResponse.statusCode {
+            case 401, 403:
+                errorString = "Failed to connect to remote API. Possibly API details are not set"
+            default:
+                errorString = "Your request returned an invalid response! Status code: \(httpResponse.statusCode)!"
+            }
+            completionHandler(.failure(NSError(domain: "BaseClient:fetch", code: 0, userInfo: [NSLocalizedDescriptionKey: errorString])))
+            return
+        }
         
-        let task = session.dataTaskWithRequest(request) { (data, response, error) in
-            
-            self.setActivityIndicatorState(false)
-            
-            guard let data = data where error == nil else {
-                completionHandler(success: false,image: nil, errorDescription: error?.localizedDescription)
+        // Log the HTTP response and data after API hit
+        logResponse(response: response, data: data, error: error, completionHandler: completionHandler)
+        
+        // Check for data and parse JSON
+        guard let responseData = data else {
+            completionHandler(.failure(NSError(domain: "BaseClient:fetch", code: 1, userInfo: [NSLocalizedDescriptionKey: "No data returned from request"])))
+            return
+        }
+        
+        // Parse JSON response
+        BaseClient.parseJSONWithCompletionHandler(data: responseData, completionHandler: completionHandler)
+    }
+
+    
+    func getImage(urlString: String, completionHandler: @escaping (Bool, UIImage?, String?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completionHandler(false, nil, "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        if let image = BaseClient.Caches.imageCache.imageWithIdentifier(identifier: urlString) {
+            completionHandler(true, image, nil)
+            return
+        }
+        
+        setActivityIndicatorState(active: true)
+        
+        let task = session.dataTask(with: request) { (data, response, error) in
+            guard let data = data, error == nil else {
+                completionHandler(false, nil, error?.localizedDescription)
                 return
             }
             
-            if let image = UIImage(data: data) {
-                BaseClient.Caches.imageCache.storeImage(image, withIdentifier: urlString)
-                completionHandler(success: true, image: image, errorDescription: nil)
-            } else {
-                completionHandler(success: false, image: nil, errorDescription: "Could not convert returned data into image object")
+            guard let image = UIImage(data: data) else {
+                completionHandler(false, nil, "Could not convert returned data into image object")
+                return
             }
+            
+            completionHandler(true, image, nil)
+            BaseClient.Caches.imageCache.storeImage(image: image, withIdentifier: urlString)
         }
         
         task.resume()
-        
     }
     
-    class func parseJSONWithCompletionHandler(data: NSData, completionHandler: CompletionHandlerType) {
-        
-        var parsedResult: AnyObject!
+    class func parseJSONWithCompletionHandler<T>(data: Data, completionHandler: CompletionHandlerType<T>) {
         do {
-            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            let parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+            completionHandler(.success(parsedResult as! T))
         } catch {
-            completionHandler(Result.Failure(NSError(domain: "BaseClient:parseJson", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to parse JSON: \(String(data))"])))
+            completionHandler(.failure(error))
         }
-        
-        completionHandler(Result.Success(parsedResult))
     }
     
-    class func escapedParameters(parameters: [String : AnyObject]) -> String {
-        
+    class func escapedParameters(parameters: [String : Any]) -> String {
         var urlVars = [String]()
         
         for (key, value) in parameters {
-            
             /* Make sure that it is a string value */
             let stringValue = "\(value)"
             
             /* Escape it */
-            let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-            
-            /* Append it */
-            urlVars += [key + "=" + "\(escapedValue!)"]
-            
+            if let escapedValue = stringValue.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                /* Append it */
+                urlVars += [key + "=" + "\(escapedValue)"]
+            }
         }
         
-        return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
+        return (!urlVars.isEmpty ? "?" : "") + urlVars.joined(separator: "&")
     }
     
     // MARK: - Shared Image Cache
@@ -203,8 +233,10 @@ class BaseClient: NSObject {
     
     // MARK: Activity Indicator
     
-    func setActivityIndicatorState(active:Bool) {
-        
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = active
+    func setActivityIndicatorState(active: Bool) {
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = active
+        }
+       
     }
 }

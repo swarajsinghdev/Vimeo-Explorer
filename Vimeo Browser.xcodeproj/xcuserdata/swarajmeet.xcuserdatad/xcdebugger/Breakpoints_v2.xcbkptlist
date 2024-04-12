@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "A9C9AD49-FD71-4FF9-A308-F2836CC0EB28"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            uuid = "11CC330D-A9AC-4549-9D8D-667228AFBA97"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            breakpointStackSelectionBehavior = "1"
+            scope = "1"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D3000EEE-2A63-40B8-8A3C-83E4DBE8AE37"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Vimeo Browser/BaseClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "logRequest(request:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D3000EEE-2A63-40B8-8A3C-83E4DBE8AE37 - cdc51ffe646fa9ad"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.logResponse&lt;&#x3c4;_0_0&gt;(response: Swift.Optional&lt;__C.NSURLResponse&gt;, data: Swift.Optional&lt;Foundation.Data&gt;, error: Swift.Optional&lt;Swift.Error&gt;, completionHandler: (Vimeo_Browser.BaseClient.Result&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "448">
+               </Location>
+               <Location
+                  uuid = "D3000EEE-2A63-40B8-8A3C-83E4DBE8AE37 - 5404228fbccd4b37"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.logRequest(request: Foundation.URLRequest) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "656">
+               </Location>
+               <Location
+                  uuid = "D3000EEE-2A63-40B8-8A3C-83E4DBE8AE37 - 5404228fbccd4b37"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.logRequest(request: Foundation.URLRequest) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "704">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "842D84AC-3C6F-44F0-98FD-191F585D78AA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Vimeo Browser/BaseClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "logRequest(request:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "842D84AC-3C6F-44F0-98FD-191F585D78AA - cdc51ffe646fa9ce"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.logResponse&lt;&#x3c4;_0_0&gt;(response: Swift.Optional&lt;__C.NSURLResponse&gt;, data: Swift.Optional&lt;Foundation.Data&gt;, error: Swift.Optional&lt;Swift.Error&gt;, completionHandler: (Vimeo_Browser.BaseClient.Result&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "820">
+               </Location>
+               <Location
+                  uuid = "842D84AC-3C6F-44F0-98FD-191F585D78AA - 5404228fbccd4b54"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.logRequest(request: Foundation.URLRequest) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "1364">
+               </Location>
+               <Location
+                  uuid = "842D84AC-3C6F-44F0-98FD-191F585D78AA - 5404228fbccd4b54"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.logRequest(request: Foundation.URLRequest) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "1412">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A4B2968-BEB0-475E-BC4B-389DCE56CA2C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Vimeo Browser/BaseClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "logResponse(response:data:error:completionHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7A4B2968-BEB0-475E-BC4B-389DCE56CA2C - cdc51ffe646fab70"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.logResponse&lt;&#x3c4;_0_0&gt;(response: Swift.Optional&lt;__C.NSURLResponse&gt;, data: Swift.Optional&lt;Foundation.Data&gt;, error: Swift.Optional&lt;Swift.Error&gt;, completionHandler: (Vimeo_Browser.BaseClient.Result&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "2296">
+               </Location>
+               <Location
+                  uuid = "7A4B2968-BEB0-475E-BC4B-389DCE56CA2C - cdc51ffe646fab70"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.logResponse&lt;&#x3c4;_0_0&gt;(response: Swift.Optional&lt;__C.NSURLResponse&gt;, data: Swift.Optional&lt;Foundation.Data&gt;, error: Swift.Optional&lt;Swift.Error&gt;, completionHandler: (Vimeo_Browser.BaseClient.Result&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "884">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7D5D3D1A-53D5-49A4-B4F9-0AE5F3B8EE28"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Vimeo Browser/BaseClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "logResponse(response:data:error:completionHandler:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7D5D3D1A-53D5-49A4-B4F9-0AE5F3B8EE28 - 40255f10db0294ce"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.handleResponse&lt;&#x3c4;_0_0&gt;(request: Foundation.URLRequest, data: Swift.Optional&lt;Foundation.Data&gt;, response: Swift.Optional&lt;__C.NSURLResponse&gt;, error: Swift.Optional&lt;Swift.Error&gt;, completionHandler: (Vimeo_Browser.BaseClient.Result&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "484">
+               </Location>
+               <Location
+                  uuid = "7D5D3D1A-53D5-49A4-B4F9-0AE5F3B8EE28 - cdc51ffe646fabdf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Vimeo_Browser.BaseClient.logResponse&lt;&#x3c4;_0_0&gt;(response: Swift.Optional&lt;__C.NSURLResponse&gt;, data: Swift.Optional&lt;Foundation.Data&gt;, error: Swift.Optional&lt;Swift.Error&gt;, completionHandler: (Vimeo_Browser.BaseClient.Result&lt;&#x3c4;_0_0&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Vimeo Browser"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/swarajmeet/Desktop/Swarajmeet/personal/Projects/Vimeo/Vimeo%20Browser/BaseClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119"
+                  offsetFromSymbolStart = "1780">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3F2BA163-AB6A-48D8-91F3-6A49A2795E38"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Vimeo Browser/BaseClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "logRequest(request:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
